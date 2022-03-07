@@ -1,0 +1,113 @@
+/* *** SPLASH PAGE STYLES *** */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#splash-main {
+  text-align: center;
+  width: 100vw;
+  height:100vh;
+  margin: 0 auto; 
+  background-color: violet;
+  
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#splash-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.splash-btns {
+  
+  margin: 0 auto; 
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width:400px;
+} 
+.splash-btns * {
+  width: 40%;
+  background-color:aliceblue;
+  border: solid 2px #444;
+  border-radius: 16px;
+  margin: 4px;
+  padding: 12px;
+
+  cursor:pointer;
+} 
+.splash-btns *:hover {
+  background: rgb(200, 230, 255);
+  font-weight:bold;
+}
+
+footer {
+  box-sizing: border-box;
+  text-align:center;
+  position: relative;
+  width: 100vw;
+  min-height: 32px;
+  bottom: 0;
+  padding: 10px 0 0 0;
+  margin: 24px auto 0 auto;
+  background-color: aliceblue;
+  font-size:smaller;
+}
+.title-footer {
+  font-style: italic;
+}
+
+
+
+/* *** Secondary Page Layout *** */
+
+header.secondary-page {
+  position: relative;
+  box-sizing: border-box;
+  top: 0;
+  width: 100vw;
+  background: aliceblue;
+  margin-bottom: 8px;
+  padding: 1vh 12px;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight:bold;
+}
+
+
+
+/* *** GAME PAGE LAYOUT *** */
+
+main.play-page {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+}
+
+#game-sidebar {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+#game-board {
+  box-sizing: border-box;
+  border:solid thin red;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  height: 90vh;
+}
+.card {
+  box-sizing: border-box;
+  border: solid thin #444;
+  height: 200px;
+  width: 150px;
+}
