@@ -15,6 +15,7 @@ I hope to make use of the following skills we have learned over the first 2 week
 - (MVP #1) Creating the game inside this repository.
 - (MVP #2) Replacing this "Getting Started" README file with a more comprehensive document detailing the game and its features. 
 - (MVP #4) HTML & CSS styling to create a landing page, instructions page, and gameplay page.
+  - [Some early attempts](https://codepen.io/timelliscircusartist/pen/LYOavjV) to use pure css to create the shapes for each card.
 - (MVP #3) Flexbox layout for [the game board](https://wireframe.cc/OaP99v), and [card designs](https://wireframe.cc/cPzpfU)
 - Creating Object Classes to create the cards and store methods that can apply for each card. (Post MVP)
 - (MVP #5) Adding eventListeners for every card as it is dealt
