@@ -63,29 +63,47 @@ footer {
 
 
 
+
+
+
 /* *** Secondary Page Layout *** */
 
+body.secondary-page {
+  display:flex;
+  flex-direction: column;
+  min-height:100vh; 
+}
+
 header.secondary-page {
-  position: relative;
   box-sizing: border-box;
-  top: 0;
+  flex: 1;
   width: 100vw;
   background: aliceblue;
   margin-bottom: 8px;
-  padding: 1vh 12px;
+  padding: 12px 0;
   text-align: center;
-  font-size: 1.5em;
+  font-size: 1.8em;
   font-weight:bold;
+}
+footer.secondary-page {
+  flex: 3;
+  width: 100vw;
+  background: aliceblue;
+  margin-top: 8px;
+  padding: 12px 0;
+  text-align: center;
 }
 
 
 
 /* *** GAME PAGE LAYOUT *** */
 
+
 main.play-page {
   box-sizing: border-box;
-  display: grid;
-  grid-template-columns: 1fr 5fr;
+  flex: 2;
+  display: flex;
+  flex-direction: row;
 }
 
 #game-sidebar {
@@ -108,6 +126,6 @@ main.play-page {
 .card {
   box-sizing: border-box;
   border: solid thin #444;
-  height: 200px;
-  width: 150px;
+  height: 150px;
+  width: 200px;
 }

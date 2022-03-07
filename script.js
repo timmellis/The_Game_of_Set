@@ -93,9 +93,7 @@ function dealCards(arr) {
   })
 }
 
-let firstDrawDeck = firstDraw(12);
-// console.log(firstDrawDeck);
-dealCards(firstDrawDeck);
+
 
 
 
