@@ -1,6 +1,7 @@
 const gameBoard = document.querySelector("#game-board");
 const sidebar = document.querySelector("#game-sidebar");
 const dealButton = document.querySelector("#deal-btn-init")
+const drawThreeButton = document.querySelector("#draw-three-btn");
 
 const options = {
   "number": [1, 2, 3],
@@ -103,4 +104,7 @@ function dealCards(arr) {
 dealButton.addEventListener("click", () => {
   let firstDrawDeck = firstDraw(12);
   dealCards(firstDrawDeck);
+})
+drawThreeButton.addEventListener("click", () => {
+  dealCards(drawThree());
 })
