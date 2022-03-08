@@ -2,6 +2,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  background-color: aliceblue;
 }
 
 
@@ -63,12 +64,11 @@ footer {
   text-align:center;
   position: relative;
   width: 100vw;
-  min-height: 32px;
   bottom: 0;
-  padding: 10px 0 0 0;
+  padding: 4px 0 8px 0;
   margin:  0 auto;
 
-  color: #333;
+  color: rgba(0,0,0,.5);
   background-color: skyblue;
   font-size:smaller;
   border-top: solid 2px #444;
@@ -138,10 +138,12 @@ main.play-page {
   height:auto;
 }
 #game-sidebar {
-  border: solid 2px cadetblue;
+  background:white;
+  border: solid 2px skyblue;
   border-radius: 16px;
+  box-shadow: -5px 5px 4px rgba(0, 72, 100, .8);
   box-sizing: border-box;
-  margin: 4px 8px;
+  margin: 4px 8px 8px 8px;
   text-align:center;
 
   display: flex;
@@ -150,9 +152,13 @@ main.play-page {
   align-items: center;
   flex: 1;
 } 
-.set-count-wrapper {
-  border: dotted thin red;
-} .set-count-wrapper h4 {
+#game-sidebar * {
+  margin: 8px auto;
+}
+#game-sidebar .set-count-wrapper {
+  margin-bottom: 12px;
+} 
+.set-count-wrapper h4 {
   margin: 4px;
 } #set-count {
   font-size: 1.2em;
@@ -162,9 +168,7 @@ main.play-page {
   font-size: smaller;
   font-style: italic;
 }
-#game-sidebar * {
-  margin: 8px auto;
-}
+
 #sidebar-settings {
   text-align: left;
   font-size: smaller;
@@ -191,8 +195,8 @@ main.play-page {
 }
 .card {
   box-sizing: border-box;
-  height: 50%;
-  width: 80%;
+  width: 180px;
+  height: 120px;
   margin:4px;
   background: white;
 
@@ -206,7 +210,7 @@ main.play-page {
   cursor: pointer;
 }
 .card.selected {
-  box-shadow: 0 0 5px red;
+  box-shadow: 0px 4px 12px black;
 }
 
 .shape-object, .shape-object::before, .shape-object::after {

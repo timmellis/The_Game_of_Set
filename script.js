@@ -274,3 +274,23 @@ drawThreeButton.addEventListener("click", () => {
 })
 
 dealButton.click();
+
+
+
+
+
+
+function checkForSolutions() {
+  const solutions = [];
+  onTheBoard.forEach((e,i) => {
+    for (let a=0; a < onTheBoard.length; a++) {
+      for (let b=0; b < onTheBoard.length; b++) {
+        if (a == i || b == i) return false;
+        else {
+          const possibleSet = [e, onTheBoard[a], onTheBoard[b]];
+          checkForSet(possibleSet); 
+        }
+      }
+    }
+  })
+}
