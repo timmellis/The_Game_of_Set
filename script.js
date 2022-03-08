@@ -4,6 +4,7 @@ const dealButton = document.querySelector("#deal-btn-init")
 const drawThreeButton = document.querySelector("#draw-three-btn");
 const setCounter = document.querySelector("#set-count");
 const setsFoundList = document.querySelector(".sets-found-list");
+const deckSizeCounter = document.querySelector("#deck-size");
 
 const options = {
   "number": [1, 2, 3],
@@ -27,12 +28,12 @@ class Card {
   }
 }
 
-// Generate the complete deck
 let deck = [];
 let onTheBoard = [];
 let selectedCards = [];
 let foundSets = [];
 
+// Generate the complete deck
 function makeDeck() {
   const keys = Object.keys(options);
   for (let i=0; i < options.number.length; i++) {
@@ -52,6 +53,7 @@ function draw() {
   let n = Math.floor(Math.random() * deck.length);
   let drawnCard = deck[n];
   deck.splice(n,1);
+  deckSizeCounter.innerText = deck.length;
   return drawnCard;
 }
 
@@ -249,6 +251,13 @@ function dealCards(arr) {
 /* ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑  */
 /* ********** YOU CAN ONLY HAVE ONE OF THESE ACTIVE AT ONCE!!! ********** */
 
+
+function fullReset() {
+  if (prompt("Are you sure you want to reset the game?")) {
+    document.querySelectorAll(".card").remove();
+    gameBoard.innerHTML = "";
+  }
+}
 
 
 

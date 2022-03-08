@@ -7,24 +7,42 @@
   <title>The Game of SET</title>
 
   <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
 
 </head>
 
-<header>
 
+<body class="full-page" id="instructions-page-body">
+  
+<header class="secondary-page">
+  <div class="page-btns home-button"><a href="index.html">Home</a></div>
+  <div class="title-bar">The Game of SET</div>
 </header>
 
+<main class="instructions-page" id="instructions-page-main">
+  <div class="instructions-wrapper">
+    <h4>Instructions:</h4>
+    <p>The object of the game is to identify a SET of 3 cards and remove them from the board.</p>
+    <p>Each card has four distinct features:</p>
+    
+    <ul id="card-features-list">
+      <li>Number</li>
+      <li>Color</li>
+      <li>Shape</li>
+      <li>Shading</li>
+    </ul>
+    <p>A SET consists of three cards on which each feature is either ALL THE SAME, or ALL DIFFERENT. For example, if each card has one item that would be considered "all the same". If the 1st card had one item, the 2nd card had two items, and the 3rd card has three items, that would be considered "all different".  
+  </div>
 
+  <div id="instructions-content">
+    
+  </div>
 
-<body>
-  
-</body>
+</main>
 
-
-
-<footer>
-
+<footer class="secondary-page">
+  <div class="footer-credits">Game design and layout by Tim Ellis, as part of the General Assembly: Software Engineering Intensive program.<br />
+    Based on the card game <span class="title-footer">"SET: The Family Game of Visual Perception"</span>, published by Set Enterprises, (c) 1991. </div>
 </footer>
 
+</body>
 </html>
