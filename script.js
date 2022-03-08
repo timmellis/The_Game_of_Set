@@ -93,21 +93,25 @@ function winCheckFill(arr) {
     else return false;
 }
 
-
 function checkForSet(arr) {
-  // IF the 3 selected cards meet the required win conditions:
+    //CHECK which win conditions the player is using at this moment:
+    const setting_reqNumber = document.querySelector("#checkbox-number").checked;
+    const setting_reqColor = document.querySelector("#checkbox-color").checked;
+    const setting_reqShape = document.querySelector("#checkbox-shape").checked;
+    const setting_reqFill = document.querySelector("#checkbox-fill").checked;
   
-  const setting_reqNumber = document.querySelector("#checkbox-number").checked;
-  const setting_reqColor = document.querySelector("#checkbox-color").checked;
-  const setting_reqShape = document.querySelector("#checkbox-shape").checked;
-  const setting_reqFill = document.querySelector("#checkbox-fill").checked;
-  
-  const reqNum = setting_reqNumber ? winCheckNum(arr) : true;
-  const reqColor = setting_reqColor ? winCheckColor(arr) : true;
-  const reqShape = setting_reqShape ? winCheckShape(arr) : true;
-  const reqFill = setting_reqFill ? winCheckFill(arr) : true;
+    // CHECK IF the 3 selected cards meet the required win conditions:  
+    const reqNum = setting_reqNumber ? winCheckNum(arr) : true;
+    const reqColor = setting_reqColor ? winCheckColor(arr) : true;
+    const reqShape = setting_reqShape ? winCheckShape(arr) : true;
+    const reqFill = setting_reqFill ? winCheckFill(arr) : true;
 
-  if (reqNum && reqColor && reqShape && reqFill) {
+    return (reqNum && reqColor && reqShape && reqFill); 
+}
+
+function submitASet(arr) {
+
+  if (checkForSet(arr)) {
     console.log("Win? WIN!");
     foundSets.push(selectedCards);
   
@@ -189,7 +193,7 @@ function dealCards(arr) {
 
       // If this was the 3rd card, check for win conditions
       if (selectedCards.length > 2) {
-        checkForSet(selectedCards);
+        submitASet(selectedCards);
         console.log("checking...");
       }
     })
