@@ -2,6 +2,7 @@ const gameBoard = document.querySelector("#game-board");
 const sidebar = document.querySelector("#game-sidebar");
 const dealButton = document.querySelector("#deal-btn-init")
 const drawThreeButton = document.querySelector("#draw-three-btn");
+const setCounter = document.querySelector("#set-count");
 
 const options = {
   "number": [1, 2, 3],
@@ -29,6 +30,7 @@ class Card {
 let deck = [];
 let onTheBoard = [];
 let selectedCards = [];
+let foundSets = [];
 
 function makeDeck() {
   const keys = Object.keys(options);
@@ -52,26 +54,14 @@ function draw() {
   return drawnCard;
 }
 
-// console.log(draw());
-// console.log(deck);
-
-// *** FIRST DRAW FUNCTION: Draw the initial 12 cards for the game:
-function firstDraw() {
-  let firstDrawSet = [];
-  for (let i=0; i<12; i++) {
-    firstDrawSet.push(draw());
-  }
-  return firstDrawSet;
-}
-
+// DRAW SET OF THREE CARDS:
 function drawThree() {
   let drawSet = [];
-  for (let i=0;i<3;i++) {
+  for (let i=0; i < 3; i++) {
     drawSet.push(draw());
   }
   return drawSet;
 }
-
 
 
 function winCheckNum(arr) {
@@ -98,25 +88,48 @@ function winCheckFill(arr) {
 
 function checkForSet(arr) {
   if (winCheckNum(arr)) {
-    console.log("Numbers check out!");
-   } else { 
-     console.log("nope! Removing active...");
-     selectedCards.forEach(e => {
-       const thisNode = document.getElementById(e.id);
-       thisNode.classList.remove("selected");
-       e.isActive = false;
-     })
-     selectedCards = [];
+    console.log("Numbers: WIN!");
+    foundSets.push(selectedCards);
+  
+                console.log("Found sets: ", foundSets.length, foundSets);
 
-     console.log("Removed!", arr, selectedCards);
-   }
-}
+    setCounter.innerText = foundSets.length;
+
+    const selectedDomCards = document.querySelectorAll(".selected");
+    selectedDomCards.forEach(e => e.style.display = 'none');
+    onTheBoard.forEach((e,i) => {
+      if (arr.includes(e)) onTheBoard.splice(i,1);
+    })
+    console.log("onBoard.lenth", onTheBoard.length);
+    
+    if (onTheBoard.length < 12) dealCards(drawThree());
+    
+
+  } else { 
+    console.log("Numbers: No!");
+  }
+
+  // After win OR lose, for each selected card: 
+  // remove class "selected" from DOM,
+  // and reset object's "isActive" property to "false"; 
+  // then empty selectedCards array.
+  selectedCards.forEach(e => {
+  const thisNode = document.getElementById(e.id);
+  thisNode.classList.remove("selected");
+  e.isActive = false;
+  }) 
+  selectedCards = [];
+
+} // end "checkForSet()" function
 
 
 
 
 
+/* ********** YOU CAN ONLY HAVE ONE OF THESE ACTIVE AT ONCE!!! ********** */
+/* ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓  */
 
+/* THIS IS THE DEALCARDS FUNCTION FOR GRID LAYOUT */
 function dealCards(arr) {
   arr.forEach(e => {
     // Create a card-wrapper div, set class and id
@@ -144,17 +157,16 @@ function dealCards(arr) {
 
     domCard.addEventListener('click', () => {
       console.log(`you clicked ${e.id}`);
+      e.isActive = !e.isActive;
+                console.log("current card object:", e, "current card.isActive:", e.isActive);
 
       // Check if e is in the SelectedCards array: if not, add it; if yes, find it and remove it.
       if (!selectedCards.includes(e)) selectedCards.push(e);
        else if (selectedCards[0] == e) selectedCards.shift();
         else selectedCards.pop();
+                  console.log("Selected cards array:", selectedCards);
 
-      
-      e.isActive = !e.isActive;                                   // Should move this to the end, and reshuffle the logic here.
       e.isActive ? domCard.classList.add("selected") : domCard.classList.remove("selected");
-      console.log(selectedCards);
-
 
       // If this was the 3rd card, check for win conditions
       if (selectedCards.length > 2) {
@@ -165,6 +177,60 @@ function dealCards(arr) {
   })
 }
 
+/* THIS IS THE DEALCARDS FUNCTION FOR FLEX MATRIX LAYOUT */
+// function dealCards(arr) {       
+//   const domCardCol = document.createElement("div");       // Create a card column for each set of 3 cards
+//   domCardCol.setAttribute("class","card-col-flex-wrapper");
+
+//   arr.forEach(e => {
+
+//     const domCard = document.createElement("div");        // Create a card-wrapper div, set class and id
+//     domCard.setAttribute("class","card card-wrapper");
+//     domCard.setAttribute("id", `${e.id}`);
+
+//     // Create and append "shape" div n number of times, based on current object's "number" value
+//     let n = parseInt(e.number);
+//     for (let i=0; i < n; i++) {
+    
+//       //Create a shape div according to the current object specs  
+//     const thisShape = document.createElement("div");
+//     thisShape.setAttribute("class",`shape-object color-${e.color} fill-${e.fill} shape-${e.shape}`);
+//     thisShape.setAttribute("id",`${e.id}-${i}`); // Set unique id.
+    
+//       // DUMMY TEXT JUST TO SEE THAT IT'S WORKING (before styling for shapes is complete)
+//       // thisShape.innerText = `Demo: ${e.id}`;     
+
+//       domCard.appendChild(thisShape);       // Append the current shape n times to card div (to make 1, 2, or 3 shapes on a card)
+//     } 
+
+//     domCardCol.appendChild(domCard);      // Append each card to the domCardColumn
+//     onTheBoard.push(e);                     // Adds card object to the onTheBoard array. 
+
+//     // ADDS THE EVENT LISTENER TO EACH INDIVIDUAL CARD ONCE IT IS CREATED
+//     domCard.addEventListener('click', () => {
+//       console.log(`you clicked ${e.id}`);
+//       e.isActive = !e.isActive;
+//                 console.log("current card object:", e, "current card.isActive:", e.isActive);
+
+//       // Check if e is in the SelectedCards array: if not, add it; if yes, find it and remove it.
+//       if (!selectedCards.includes(e)) selectedCards.push(e);
+//        else if (selectedCards[0] == e) selectedCards.shift();
+//         else selectedCards.pop();
+//                   console.log("Selected cards array:", selectedCards);
+
+//       e.isActive ? domCard.classList.add("selected") : domCard.classList.remove("selected");
+
+//       // If this was the 3rd card, check for win conditions
+//       if (selectedCards.length > 2) {
+//         checkForSet(selectedCards);
+//       }
+//     })
+//   })
+//   gameBoard.appendChild(domCardCol);      // Finally, append ALL of that to DOM gameBoard.
+// }
+
+/* ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑  */
+/* ********** YOU CAN ONLY HAVE ONE OF THESE ACTIVE AT ONCE!!! ********** */
 
 
 
@@ -173,9 +239,12 @@ function dealCards(arr) {
 
 ///// EVENT LISTENERS
 dealButton.addEventListener("click", () => {
-  let firstDrawDeck = firstDraw(12);
-  dealCards(firstDrawDeck);
+  for (let i=0; i < 4; i++) {
+    dealCards(drawThree());
+  }
 })
 drawThreeButton.addEventListener("click", () => {
   dealCards(drawThree());
 })
+
+dealButton.click();
