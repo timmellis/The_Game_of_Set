@@ -25,10 +25,26 @@
     <div class="set-count-wrapper">
       <h4>Sets found:</h4>
       <div id="set-count">0</div>
+      <ul class="sets-found-list">
+        <li>asd</li>
+      </ul>
     </div>
     
     <button class="deal-btn" id="deal-btn-init">Deal the cards!</button>
     <button id="draw-three-btn">Deal 3 new cards</button>
+    <div class="cards-remaining-wrapper">(Cards remaining: <span id="deck-size">0</span>)</div>
+
+
+    <div class="sidebar-settings-wrapper">
+      <h4>Settings</h4>
+      <div id="sidebar-settings">
+        <h4>Required for Set</h4>
+        <input type="checkbox" value="number" name="checkbox-number" id="checkbox-number" checked /> <label for="checkbox-number">Number</label><br />
+        <input type="checkbox" value="color" name="checkbox-color" id="checkbox-color" checked /> <label for="checkbox-color">Color</label><br />
+        <input type="checkbox" value="shape" name="checkbox-shape" id="checkbox-shape" /> <label for="checkbox-shape">Shape</label><br />
+        <input type="checkbox" value="fill" name="checkbox-fill" id="checkbox-fill" /> <label for="checkbox-fill">Fill pattern</label>
+      </div>
+    </div>
   </aside>
 
   <div id="game-board">

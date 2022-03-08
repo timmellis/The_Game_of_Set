@@ -3,6 +3,7 @@ const sidebar = document.querySelector("#game-sidebar");
 const dealButton = document.querySelector("#deal-btn-init")
 const drawThreeButton = document.querySelector("#draw-three-btn");
 const setCounter = document.querySelector("#set-count");
+const setsFoundList = document.querySelector(".sets-found-list");
 
 const options = {
   "number": [1, 2, 3],
@@ -63,6 +64,11 @@ function drawThree() {
   return drawSet;
 }
 
+function checkBoardSize() {
+  return onTheBoard.length < 12 ? dealCards(drawThree()) : true;
+  
+}
+
 
 function winCheckNum(arr) {
   if (arr[0].number == arr[1].number && arr[1].number == arr[2].number) return true;
@@ -87,8 +93,20 @@ function winCheckFill(arr) {
 
 
 function checkForSet(arr) {
-  if (winCheckNum(arr)) {
-    console.log("Numbers: WIN!");
+  // IF the 3 selected cards meet the required win conditions:
+  
+  const setting_reqNumber = document.querySelector("#checkbox-number").checked;
+  const setting_reqColor = document.querySelector("#checkbox-color").checked;
+  const setting_reqShape = document.querySelector("#checkbox-shape").checked;
+  const setting_reqFill = document.querySelector("#checkbox-fill").checked;
+  
+  const reqNum = setting_reqNumber ? winCheckNum(arr) : true;
+  const reqColor = setting_reqColor ? winCheckColor(arr) : true;
+  const reqShape = setting_reqShape ? winCheckShape(arr) : true;
+  const reqFill = setting_reqFill ? winCheckFill(arr) : true;
+
+  if (reqNum && reqColor && reqShape && reqFill) {
+    console.log("Win? WIN!");
     foundSets.push(selectedCards);
   
                 console.log("Found sets: ", foundSets.length, foundSets);
@@ -100,13 +118,12 @@ function checkForSet(arr) {
     onTheBoard.forEach((e,i) => {
       if (arr.includes(e)) onTheBoard.splice(i,1);
     })
-    console.log("onBoard.lenth", onTheBoard.length);
     
-    if (onTheBoard.length < 12) dealCards(drawThree());
+    checkBoardSize(); // If removing the 3 cards makes the board have <12, draw back up to 12;
     
 
   } else { 
-    console.log("Numbers: No!");
+    console.log("Win? No!");
   }
 
   // After win OR lose, for each selected card: 

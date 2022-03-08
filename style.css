@@ -123,9 +123,20 @@ main.play-page {
   font-size: 1.2em;
   font-weight: bold;
 }
-#game-sidebar > * {
+.cards-remaining-wrapper {
+  font-size: smaller;
+  font-style: italic;
+}
+#game-sidebar * {
   margin: 8px auto;
 }
+#sidebar-settings {
+  text-align: left;
+  font-size: smaller;
+} #sidebar-settings * {
+  margin: 0;
+}
+
 
 /* *** GAME PAGE LAYOUT - GRID *** */
 /* ------------------------------ */
@@ -139,7 +150,7 @@ main.play-page {
   padding:8px;
 
   display: grid;
-  grid-template-rows: minmax(100px, 200px) minmax(100px, 200px) minmax(100px, 200px);
+  grid-template-rows: repeat(3, 30%);
   grid-auto-flow: column;  
   grid-gap: 10px;
 }
@@ -225,7 +236,9 @@ main.play-page {
   height: 70%;
   width: 18%;
   position: relative;
+  
   margin: 0 4px;
+  border-radius: 4px;  
 } 
 /* .shape-numeral::before, .shape-numeral::after {
   z-index:10;
