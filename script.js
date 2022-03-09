@@ -1,10 +1,11 @@
 const gameBoard = document.querySelector("#game-board");
 const sidebar = document.querySelector("#game-sidebar");
-const dealButton = document.querySelector("#deal-btn-init")
-const drawThreeButton = document.querySelector("#draw-three-btn");
 const setCounter = document.querySelector("#set-count");
 const setsFoundList = document.querySelector(".sets-found-list");
 const deckSizeCounter = document.querySelector("#deck-size");
+const dom_dealButton = document.querySelector("#deal-btn-init")
+const drawThreeButton = document.querySelector("#draw-three-btn");
+const deckStackText = document.querySelector("#deck-stack-text");
 const FLIP_ANIM_DURATION = 1;
 
 const options = {
@@ -114,6 +115,7 @@ function checkForSet(arr) {
 }
 
 function submitASet(arr) {
+  const selectedDomCards = document.querySelectorAll(".selected");
 
   if (checkForSet(arr)) {
     console.log("Win? WIN!");
@@ -127,7 +129,6 @@ function submitASet(arr) {
         const state = Flip.getState(".card"); // *** <-- ANIMATION PRE-STATE
 
     
-    const selectedDomCards = document.querySelectorAll(".selected");
     selectedDomCards.forEach(e => {
       const thisWidth = e.offsetWidth;
       console.log("DOM Manip: thisWidth", thisWidth);
@@ -144,18 +145,20 @@ function submitASet(arr) {
     //onComplete: myFunc
     });
 
+    //FOR NOW: remove those cards once they've shrunk to the corner.
+
+
     onTheBoard.forEach((e,i) => {
       if (arr.includes(e)) onTheBoard.splice(i,1);
     })
     
-    // checkBoardSize();
+    // checkBoardSize();       // If removing the 3 cards makes the board have <12, draw back up to 12;
     setTimeout(() => {checkBoardSize()}, 1000);
-       // If removing the 3 cards makes the board have <12, draw back up to 12;
     
 
 
   } else { 
-    console.log("Win? No!");
+    
   }
 
   // After win OR lose, for each selected card: 
@@ -305,16 +308,19 @@ function fullReset() {
 
 
 ///// EVENT LISTENERS
-dealButton.addEventListener("click", () => {
+dom_dealButton.addEventListener("click", () => {
   for (let i=0; i < 4; i++) {
     dealCards(drawThree());
   }
+  dom_dealButton.style.display = "none";
+  drawThreeButton.style.display = "flex";
+  deckStackText.innerText = "Can't find a set?";
 })
 drawThreeButton.addEventListener("click", () => {
   dealCards(drawThree());
 })
 
-dealButton.click();
+//dom_dealButton.click();
 
 
 

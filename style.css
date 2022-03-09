@@ -142,6 +142,7 @@ main.play-page {
   height:auto;
 }
 #game-sidebar {
+  position: relative;
   min-width: 150px;
   background:white;
   border: solid 2px skyblue;
@@ -181,6 +182,45 @@ main.play-page {
   margin: 0;
 }
 
+.deck-stack-btn-wrapper {
+  position: absolute;
+  bottom: 0px;
+}
+.deck-graphic {
+  position: relative;
+  width: 100px;
+  height: 65px;
+  border: solid 3px black;
+  border-radius: 16px;
+  border-right-style: double;
+  background-color: skyblue;
+  background-image: linear-gradient(45deg, transparent 50%, rgba(255,255,255,.5) 50%);
+  background-image: linear-gradient(-45deg, transparent 50%, rgba(255,255,255,.5) 50%);
+  background-size: 15px 15px;
+
+} 
+.deck-graphic.deck-stack-2 {
+  bottom: 6px;
+  right: 7px;
+  margin: 0 !important;
+}
+.deck-stack-btn {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  cursor: pointer;
+}
+.deck-graphic .deck-btn-text {
+  font-weight:bold;
+  margin:0;
+  padding: 4px 6px;
+  background: rgba(255,255,255,.65);
+  box-shadow: 0 0 10px 5px #fff;
+  border-radius: 8px;
+}
+
 
 /* *** GAME PAGE LAYOUT - GRID *** */
 /* ------------------------------ */
@@ -216,6 +256,7 @@ main.play-page {
 
   cursor: pointer;
 }
+
 .card-new {
   position: absolute;
   bottom: 20px;
