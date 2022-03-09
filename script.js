@@ -14,13 +14,14 @@ const options = {
 };
 
 class Card {
-  constructor(number, color, fill, shape, id) {
+  constructor(number, color, fill, shape, id, id_num) {
     this.number = number;
     this.color = color;
     this.fill = fill;
     this.shape = shape;
-    this.id = id;
+    this.id_num = id_num;
     this.isActive = false;
+    this.id = id;
   }
   toggleActive() {
     console.log(`${this.id} got clicked.`);
@@ -35,13 +36,15 @@ let foundSets = [];
 
 // Generate the complete deck
 function makeDeck() {
+  let c = 1;
   const keys = Object.keys(options);
   for (let i=0; i < options.number.length; i++) {
     for (let j=0; j < options.color.length; j++) {
       for (let k=0; k < options.fill.length; k++) {
         for (let m=0; m < options.shape.length; m++) {
-          const thisCard = new Card(options.number[i], options.color[j], options.fill[k], options.shape[m], `${options.color[j]}-${options.fill[k]}-${options.shape[m]}-${options.number[i]}`);
+          const thisCard = new Card(options.number[i], options.color[j], options.fill[k], options.shape[m], `${options.color[j]}-${options.fill[k]}-${options.shape[m]}-${options.number[i]}`, c);
           deck.push(thisCard);
+          c++;
         }
       }
     }
@@ -119,14 +122,27 @@ function submitASet(arr) {
 
     setCounter.innerText = foundSets.length;
 
+        // returns a state object containing data about the elements' current position/size/rotation in the viewport
+        const state = Flip.getState(".card"); // *** ???
+
+    
     const selectedDomCards = document.querySelectorAll(".selected");
-    selectedDomCards.forEach(e => e.style.display = 'none');
+    selectedDomCards.forEach(e => e.style.display = "none");
+
     onTheBoard.forEach((e,i) => {
       if (arr.includes(e)) onTheBoard.splice(i,1);
     })
     
+    
     checkBoardSize(); // If removing the 3 cards makes the board have <12, draw back up to 12;
     
+            // animate from the previous state to the current one:  
+            Flip.from(state, {                    // *** ???
+              duration: 2,
+              ease: "power1.inOut",
+              absolute: true
+              //onComplete: myFunc
+            });
 
   } else { 
     console.log("Win? No!");
@@ -168,6 +184,7 @@ function dealCards(arr) {
     const thisShape = document.createElement("div");
     thisShape.setAttribute("class",`shape-object color-${e.color} fill-${e.fill} shape-${e.shape}`);
     thisShape.setAttribute("id",`${e.id}-${i}`); // Set unique id.
+    thisShape.setAttribute("data-shape-mult", `${i}`);
     
       // DUMMY TEXT JUST TO SEE THAT IT'S WORKING (before styling for shapes is complete)
       // thisShape.innerText = `Demo: ${e.id}`;     
@@ -175,26 +192,24 @@ function dealCards(arr) {
       domCard.appendChild(thisShape);       // Append the current shape div to card-wrapper div
 
     } 
-    gameBoard.appendChild(domCard);         // Append ALL of that to DOM gameBoard.
+
+    gameBoard.appendChild(domCard);        // Append ALL of that to DOM gameBoard.
     onTheBoard.push(e);                     // Adds card object to the onTheTable array. 
 
     domCard.addEventListener('click', () => {
       console.log(`you clicked ${e.id}`);
       e.isActive = !e.isActive;
-                console.log("current card object:", e, "current card.isActive:", e.isActive);
 
       // Check if e is in the SelectedCards array: if not, add it; if yes, find it and remove it.
       if (!selectedCards.includes(e)) selectedCards.push(e);
        else if (selectedCards[0] == e) selectedCards.shift();
         else selectedCards.pop();
-                  console.log("Selected cards array:", selectedCards);
 
       e.isActive ? domCard.classList.add("selected") : domCard.classList.remove("selected");
 
       // If this was the 3rd card, check for win conditions
       if (selectedCards.length > 2) {
         submitASet(selectedCards);
-        console.log("checking...");
       }
     })
   })
@@ -287,14 +302,23 @@ dealButton.click();
 function checkForSolutions() {
   const solutions = [];
   onTheBoard.forEach((e,i) => {
-    for (let a=0; a < onTheBoard.length; a++) {
-      for (let b=0; b < onTheBoard.length; b++) {
-        if (a == i || b == i) return false;
+    for (let a=i+1; a < onTheBoard.length; a++) {
+      for (let b=i+1; b < onTheBoard.length; b++) {
+        if (a == i || b == i || a == b) console.log(false);
         else {
           const possibleSet = [e, onTheBoard[a], onTheBoard[b]];
-          checkForSet(possibleSet); 
+          checkForSet(possibleSet) ? solutions.push(possibleSet) : null; 
         }
       }
     }
   })
+  console.log(solutions);
+
 }
+
+document.querySelector("#checkbox-number").checked = true;
+document.querySelector("#checkbox-color").checked = true;
+document.querySelector("#checkbox-shape").checked = false;
+document.querySelector("#checkbox-fill").checked = false;
+
+checkForSolutions();
