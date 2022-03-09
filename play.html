@@ -41,13 +41,40 @@
 
     <div class="sidebar-settings-wrapper">
       <h4>Settings</h4>
+      
       <div id="sidebar-settings">
-        <h4>Required for Set</h4>
+        
+        <div class="sidebar-settings-game-mode">
+          <h4>Game Mode:</h4>
+          <input type="radio" name="game-mode" id="mode-basic" value="mode-basic" />
+            <label for="mode-basic">Ya Basic <br />
+              <span class="game-mode-expl">(Number only)</span>
+            </label>
+            <br />
+            <input type="radio" name="game-mode" id="mode-novice" value="mode-novice" />
+            <label for="mode-novice">Novice <br />
+              <span class="game-mode-expl">(Number & Color)</span>
+            </label>
+            <br />
+          <input type="radio" name="game-mode" id="mode-intermediate" value="mode-intermediate" checked /> 
+            <label for="mode-intermediate">Intermediate <br />
+              <span class="game-mode-expl">(Number, Color & Shape)</span>
+            </label> 
+            <br />
+          <input type="radio" name="game-mode" id="mode-expert" value="mode-expert" />
+            <label for="mode-full">Expert (Full Game) <br />
+              <span class="game-mode-expl">(Number, Color, Shape & Fill)</span>
+            </label>
+            <br />
+        </div>
+
+<!-- OUTDATED: CHECKBOX FOR WIN CONDITIONS 
         <input type="checkbox" value="number" name="checkbox-number" id="checkbox-number" checked /> <label for="checkbox-number">Number</label><br />
         <input type="checkbox" value="color" name="checkbox-color" id="checkbox-color" checked /> <label for="checkbox-color">Color</label><br />
         <input type="checkbox" value="shape" name="checkbox-shape" id="checkbox-shape" /> <label for="checkbox-shape">Shape</label><br />
         <input type="checkbox" value="fill" name="checkbox-fill" id="checkbox-fill" /> <label for="checkbox-fill">Fill pattern</label>
-      </div>
+-->
+      </div> <!-- End sidebar-settings -->
     </div> <!-- End "settings wrapper" -->
 
     <div class="deck-stack-btn-wrapper">

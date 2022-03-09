@@ -185,6 +185,11 @@ main.play-page {
 } #sidebar-settings * {
   margin: 0;
 }
+#sidebar-settings span.game-mode-expl {
+  margin-left:8px;
+  font-size:smaller;
+  font-style: italic;
+}
 
 .deck-stack-btn-wrapper {
   position: absolute;

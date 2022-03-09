@@ -1,10 +1,20 @@
+// ***** GAME MODE DEFAULTS VIA CHECKBOXES (OUTDATED) ***** //
+// document.querySelector("#checkbox-number").checked = true;
+// document.querySelector("#checkbox-color").checked = true;
+// document.querySelector("#checkbox-shape").checked = true;
+// document.querySelector("#checkbox-fill").checked = false;
+
+
+
 const gameBoard = document.querySelector("#game-board");
 const sidebar = document.querySelector("#game-sidebar");
 const setCounter = document.querySelector("#set-count");
 const setsFoundList = document.querySelector(".sets-found-list");
+const dom_gameModeSettingsBox = document.querySelector(".sidebar-settings-game-mode");
+const dom_gameModeSettingsInputs = document.querySelectorAll(".sidebar-settings-game-mode input[type='radio']");
 const deckSizeCounter = document.querySelector("#deck-size");
 const dom_dealButton = document.querySelector("#deal-btn-init")
-const drawThreeButton = document.querySelector("#draw-three-btn");
+const dom_drawThreeButton = document.querySelector("#draw-three-btn");
 const deckStackText = document.querySelector("#deck-stack-text");
 const FLIP_ANIM_DURATION = 1;
 
@@ -36,6 +46,8 @@ let onTheBoard = [];
 let selectedCards = [];
 let foundSets = [];
 let incorrectCounter = 0;
+let solutions = [];
+
 
 // Generate the complete deck
 function makeDeck() {
@@ -73,7 +85,7 @@ function drawThree() {
 }
 
 function checkBoardSize() {
-  return onTheBoard.length < 12 ? dealCards(drawThree()) : true;
+  return onTheBoard.length < 12 ? dom_drawThreeButton.click() : true;
   
 }
 
@@ -100,7 +112,8 @@ function winCheckFill(arr) {
 }
 
 function checkForSet(arr) {
-    //CHECK which win conditions the player is using at this moment:
+/* 
+  //CHECK which win conditions the player wants VIA CHECKBOXES:
     const setting_reqNumber = document.querySelector("#checkbox-number").checked;
     const setting_reqColor = document.querySelector("#checkbox-color").checked;
     const setting_reqShape = document.querySelector("#checkbox-shape").checked;
@@ -113,6 +126,19 @@ function checkForSet(arr) {
     const reqFill = setting_reqFill ? winCheckFill(arr) : true;
 
     return (reqNum && reqColor && reqShape && reqFill); 
+*/
+
+    // USING RADIO BUTTONS FOR GAME MODES
+    const gamemode_basic = document.querySelector("input#mode-basic").checked;
+    const gamemode_novice = document.querySelector("input#mode-novice").checked;
+    const gamemode_intermediate = document.querySelector("input#mode-intermediate").checked;
+    const gamemode_expert = document.querySelector("input#mode-expert").checked;
+    
+    if (gamemode_expert) return winCheckNum(arr) && winCheckColor(arr) &&  winCheckShape(arr) && winCheckFill(arr);
+    else if (gamemode_intermediate) return winCheckNum(arr) && winCheckColor(arr) &&  winCheckShape(arr);
+    else if (gamemode_novice) return winCheckNum(arr) && winCheckColor(arr);
+    else if (gamemode_basic) return winCheckNum(arr);
+
 }
 
 function submitASet(arr) {
@@ -179,6 +205,24 @@ else setTimeout(() => {unsetSelecedCards()}, 500);
 
 } // end "checkForSet()" function
 
+
+
+function checkForSolutions() {
+  solutions = [];
+  onTheBoard.forEach((e,i) => {
+    for (let a=i+1; a < onTheBoard.length; a++) {
+      for (let b=i+1; b < onTheBoard.length; b++) {
+        if (a == i || b == i || a == b) null;
+        else {
+          const possibleSet = [e, onTheBoard[a], onTheBoard[b]];
+          checkForSet(possibleSet) ? solutions.push(possibleSet) : null; 
+        }
+      }
+    }
+  })
+  console.log("solutions:", solutions);
+
+}
 
 
 
@@ -318,11 +362,16 @@ dom_dealButton.addEventListener("click", () => {
     dealCards(drawThree());
   }
   dom_dealButton.style.display = "none";
-  drawThreeButton.style.display = "flex";
+  dom_drawThreeButton.style.display = "flex";
   deckStackText.innerText = "Can't find a set?";
+  dom_gameModeSettingsInputs.forEach(e => e.disabled = true);
+  dom_gameModeSettingsBox.style.opacity = "50%";
+  checkForSolutions();
 })
-drawThreeButton.addEventListener("click", () => {
+dom_drawThreeButton.addEventListener("click", () => {
   dealCards(drawThree());
+
+  checkForSolutions();
 })
 
 //dom_dealButton.click();
@@ -332,26 +381,6 @@ drawThreeButton.addEventListener("click", () => {
 
 
 
-function checkForSolutions() {
-  const solutions = [];
-  onTheBoard.forEach((e,i) => {
-    for (let a=i+1; a < onTheBoard.length; a++) {
-      for (let b=i+1; b < onTheBoard.length; b++) {
-        if (a == i || b == i || a == b) console.log(false);
-        else {
-          const possibleSet = [e, onTheBoard[a], onTheBoard[b]];
-          checkForSet(possibleSet) ? solutions.push(possibleSet) : null; 
-        }
-      }
-    }
-  })
-  console.log(solutions);
 
-}
 
-document.querySelector("#checkbox-number").checked = true;
-document.querySelector("#checkbox-color").checked = true;
-document.querySelector("#checkbox-shape").checked = false;
-document.querySelector("#checkbox-fill").checked = false;
 
-checkForSolutions();
