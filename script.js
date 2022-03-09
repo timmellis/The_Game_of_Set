@@ -5,6 +5,7 @@ const drawThreeButton = document.querySelector("#draw-three-btn");
 const setCounter = document.querySelector("#set-count");
 const setsFoundList = document.querySelector(".sets-found-list");
 const deckSizeCounter = document.querySelector("#deck-size");
+const FLIP_ANIM_DURATION = 1;
 
 const options = {
   "number": [1, 2, 3],
@@ -122,27 +123,36 @@ function submitASet(arr) {
 
     setCounter.innerText = foundSets.length;
 
-        // returns a state object containing data about the elements' current position/size/rotation in the viewport
-        const state = Flip.getState(".card"); // *** ???
+        // FLIP STATE SAVE:
+        const state = Flip.getState(".card"); // *** <-- ANIMATION PRE-STATE
 
     
     const selectedDomCards = document.querySelectorAll(".selected");
-    selectedDomCards.forEach(e => e.style.display = "none");
+    selectedDomCards.forEach(e => {
+      const thisWidth = e.offsetWidth;
+      console.log("DOM Manip: thisWidth", thisWidth);
+      e.style.position = "absolute";
+      e.style.top = "10px";
+      e.style.left = `-${thisWidth*0.75}px`;
+      e.style.height = "10px";
+      e.style.width = "8px";
+      //e.children.forEach(c => c.style.borderWidth = "2px");
+    });
+
+    // animate from the previous state to the current one:  
+    Flip.from(state, {duration: FLIP_ANIM_DURATION, ease: "power1.inOut", absolute: true, absoluteOnLeave: true
+    //onComplete: myFunc
+    });
 
     onTheBoard.forEach((e,i) => {
       if (arr.includes(e)) onTheBoard.splice(i,1);
     })
     
+    // checkBoardSize();
+    setTimeout(() => {checkBoardSize()}, 1000);
+       // If removing the 3 cards makes the board have <12, draw back up to 12;
     
-    checkBoardSize(); // If removing the 3 cards makes the board have <12, draw back up to 12;
-    
-            // animate from the previous state to the current one:  
-            Flip.from(state, {                    // *** ???
-              duration: 2,
-              ease: "power1.inOut",
-              absolute: true
-              //onComplete: myFunc
-            });
+
 
   } else { 
     console.log("Win? No!");
@@ -192,8 +202,20 @@ function dealCards(arr) {
       domCard.appendChild(thisShape);       // Append the current shape div to card-wrapper div
 
     } 
-
     gameBoard.appendChild(domCard);        // Append ALL of that to DOM gameBoard.
+
+                                            // *** DOM ADD ***
+    domCard.classList.add("card-new");      // <-- Added for the sake of the animation
+    // FLIP STATE SAVE:
+    const dealState = Flip.getState(".card"); // *** <-- ANIMATION PRE-STATE
+    domCard.classList.remove("card-new");      // <-- Added for the sake of the animation
+    // animate from the previous state to the current one:  
+    Flip.from(dealState, {duration: FLIP_ANIM_DURATION, ease: "power1.inOut", absolute: true
+    //onComplete: myFunc
+    });
+
+   
+   
     onTheBoard.push(e);                     // Adds card object to the onTheTable array. 
 
     domCard.addEventListener('click', () => {
