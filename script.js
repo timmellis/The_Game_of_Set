@@ -152,23 +152,32 @@ function submitASet(arr) {
 
     setCounter.innerText = foundSets.length;
 
+      const setFoundWrapper = document.createElement("div");
+      setFoundWrapper.setAttribute("class","set-found-wrapper");
+
         // FLIP STATE SAVE:
         const state = Flip.getState(".card"); // *** <-- ANIMATION PRE-STATE
 
-    
     selectedDomCards.forEach(e => {
-      const thisWidth = e.offsetWidth;
-      e.style.position = "absolute";
-      e.style.top = "10px";
-      e.style.left = `-${thisWidth*0.75}px`;
-      e.style.height = "10px";
-      e.style.width = "8px";
+      //const thisWidth = e.offsetWidth;
+      e.style.position = "relative";
+      e.style.width = "35px";
+      e.style.height = "22px";
+      e.style.borderWidth = "1px";
+      e.style.borderRadius = "4px";
+      e.style.cursor = "default";
+      setFoundWrapper.appendChild(e);
+      Array.from(e.children).forEach(c => {c.style.borderWidth = "1px"});
+
     });
+    setsFoundList.appendChild(setFoundWrapper);
 
     // animate from the previous state to the current one:  
-    Flip.from(state, {duration: FLIP_ANIM_DURATION, ease: "power1.inOut", absolute: true, absoluteOnLeave: true
-    //onComplete: myFunc
+    Flip.from(state, {duration: FLIP_ANIM_DURATION, ease: "power1.inOut", absolute: true, absoluteOnLeave: true,
+    onComplete: () => {setFoundWrapper.replaceWith(setFoundWrapper.cloneNode(true))}
     });
+
+    
 
     //FOR NOW: remove those cards once they've shrunk to the corner.
 
