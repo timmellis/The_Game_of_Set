@@ -26,7 +26,7 @@ class Card {
     this.id = id;
   }
   toggleActive() {
-    console.log(`${this.id} got clicked.`);
+    // console.log(`${this.id} got clicked.`);
        
   }
 }
@@ -35,6 +35,7 @@ let deck = [];
 let onTheBoard = [];
 let selectedCards = [];
 let foundSets = [];
+let incorrectCounter = 0;
 
 // Generate the complete deck
 function makeDeck() {
@@ -116,9 +117,9 @@ function checkForSet(arr) {
 
 function submitASet(arr) {
   const selectedDomCards = document.querySelectorAll(".selected");
+  const isASet = checkForSet(arr);
 
   if (checkForSet(arr)) {
-    console.log("Win? WIN!");
     foundSets.push(selectedCards);
   
                 console.log("Found sets: ", foundSets.length, foundSets);
@@ -131,13 +132,11 @@ function submitASet(arr) {
     
     selectedDomCards.forEach(e => {
       const thisWidth = e.offsetWidth;
-      console.log("DOM Manip: thisWidth", thisWidth);
       e.style.position = "absolute";
       e.style.top = "10px";
       e.style.left = `-${thisWidth*0.75}px`;
       e.style.height = "10px";
       e.style.width = "8px";
-      //e.children.forEach(c => c.style.borderWidth = "2px");
     });
 
     // animate from the previous state to the current one:  
@@ -151,26 +150,32 @@ function submitASet(arr) {
     onTheBoard.forEach((e,i) => {
       if (arr.includes(e)) onTheBoard.splice(i,1);
     })
-    
-    // checkBoardSize();       // If removing the 3 cards makes the board have <12, draw back up to 12;
+
+    // If removing the 3 cards makes the board have <12, draw back up to 12;
+    // checkBoardSize();  
     setTimeout(() => {checkBoardSize()}, 1000);
-    
-
-
+  
   } else { 
-    
+    incorrectCounter++;
+    selectedDomCards.forEach(e => {
+      e.classList.add("selected-wrong");
+    });
+    document.querySelector("#incorrect-counter").innerText = incorrectCounter;
   }
 
-  // After win OR lose, for each selected card: 
-  // remove class "selected" from DOM,
-  // and reset object's "isActive" property to "false"; 
-  // then empty selectedCards array.
+  // After win OR lose, for each selected card: remove class "selected" from DOM,
+  // and reset object's "isActive" property to "false"; then empty selectedCards array.
+const unsetSelecedCards = () => {
   selectedCards.forEach(e => {
-  const thisNode = document.getElementById(e.id);
-  thisNode.classList.remove("selected");
-  e.isActive = false;
-  }) 
+    const thisNode = document.getElementById(e.id);
+    thisNode.classList.remove("selected");
+    thisNode.classList.remove("selected-wrong");
+    e.isActive = false;
+    }) 
   selectedCards = [];
+}
+if (isASet) unsetSelecedCards();
+else setTimeout(() => {unsetSelecedCards()}, 500);
 
 } // end "checkForSet()" function
 
@@ -222,7 +227,7 @@ function dealCards(arr) {
     onTheBoard.push(e);                     // Adds card object to the onTheTable array. 
 
     domCard.addEventListener('click', () => {
-      console.log(`you clicked ${e.id}`);
+//      console.log(`you clicked ${e.id}`);
       e.isActive = !e.isActive;
 
       // Check if e is in the SelectedCards array: if not, add it; if yes, find it and remove it.
