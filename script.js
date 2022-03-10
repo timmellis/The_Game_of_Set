@@ -21,8 +21,8 @@ const FLIP_ANIM_DURATION = 1;
 const options = {
   "number": [1, 2, 3],
   "color": ["A","B","C"],
-  "fill": ["filled","empty","striped"],
-  "shape": ["diamond","oval","numeral"]
+  "shape": ["diamond","oval","numeral"],
+  "fill": ["filled","empty","striped"]
 };
 
 class Card {
@@ -35,10 +35,6 @@ class Card {
     this.isActive = false;
     this.id = id;
   }
-  toggleActive() {
-    // console.log(`${this.id} got clicked.`);
-       
-  }
 }
 
 let deck = [];
@@ -46,6 +42,7 @@ let onTheBoard = [];
 let selectedCards = [];
 let foundSets = [];
 let incorrectCounter = 0;
+let gameMode = "";
 let solutions = [];
 
 
@@ -86,7 +83,6 @@ function drawThree() {
 
 function checkBoardSize() {
   return onTheBoard.length < 12 ? dom_drawThreeButton.click() : true;
-  
 }
 
 
@@ -112,21 +108,7 @@ function winCheckFill(arr) {
 }
 
 function checkForSet(arr) {
-/* 
-  //CHECK which win conditions the player wants VIA CHECKBOXES:
-    const setting_reqNumber = document.querySelector("#checkbox-number").checked;
-    const setting_reqColor = document.querySelector("#checkbox-color").checked;
-    const setting_reqShape = document.querySelector("#checkbox-shape").checked;
-    const setting_reqFill = document.querySelector("#checkbox-fill").checked;
-  
-    // CHECK IF the 3 selected cards meet the required win conditions:  
-    const reqNum = setting_reqNumber ? winCheckNum(arr) : true;
-    const reqColor = setting_reqColor ? winCheckColor(arr) : true;
-    const reqShape = setting_reqShape ? winCheckShape(arr) : true;
-    const reqFill = setting_reqFill ? winCheckFill(arr) : true;
 
-    return (reqNum && reqColor && reqShape && reqFill); 
-*/
 
     // USING RADIO BUTTONS FOR GAME MODES
     const gamemode_basic = document.querySelector("input#mode-basic").checked;
@@ -148,8 +130,6 @@ function submitASet(arr) {
   if (checkForSet(arr)) {
     foundSets.push(selectedCards);
   
-                console.log("Found sets: ", foundSets.length, foundSets);
-
     setCounter.innerText = foundSets.length;
 
       const setFoundWrapper = document.createElement("div");
@@ -167,28 +147,35 @@ function submitASet(arr) {
       e.style.borderRadius = "4px";
       e.style.cursor = "default";
       setFoundWrapper.appendChild(e);
-      Array.from(e.children).forEach(c => {c.style.borderWidth = "1px"});
+      Array.from(e.children).forEach(c => {
+        c.style.borderWidth = "1px";
+        c.style.backgroundSize = "4px 4px";
+        c.classList.contains("shape-numeral") ? c.style.borderRadius = "1px" : null;
+      });
 
     });
-    setsFoundList.appendChild(setFoundWrapper);
+    setsFoundList.prepend(setFoundWrapper);
 
-    // animate from the previous state to the current one:  
-    Flip.from(state, {duration: FLIP_ANIM_DURATION, ease: "power1.inOut", absolute: true, absoluteOnLeave: true,
-    onComplete: () => {setFoundWrapper.replaceWith(setFoundWrapper.cloneNode(true))}
-    });
-
-    
-
-    //FOR NOW: remove those cards once they've shrunk to the corner.
-
+    let ontheboardCardIndexes = [];
 
     onTheBoard.forEach((e,i) => {
-      if (arr.includes(e)) onTheBoard.splice(i,1);
-    })
+      if (arr.includes(e)) onTheBoard[i] = null;
+    }) // End forEach loop
+
+    onTheBoard = onTheBoard.filter(e => e !== null);
+
+    // animate from the previous state to the current one:  
+    Flip.from(state, {duration: FLIP_ANIM_DURATION , ease: "power1.inOut", absolute: true, absoluteOnLeave: false,
+    onComplete: () => {
+      setFoundWrapper.replaceWith(setFoundWrapper.cloneNode(true));
+      (document.querySelectorAll(".set-found-wrapper .card")).forEach(e => e.classList.remove("card"));
+      }
+    });
 
     // If removing the 3 cards makes the board have <12, draw back up to 12;
-    // checkBoardSize();  
     setTimeout(() => {checkBoardSize()}, 1000);
+
+
   
   } else { 
     incorrectCounter++;
@@ -229,7 +216,7 @@ function checkForSolutions() {
       }
     }
   })
-  console.log("solutions:", solutions);
+  return solutions;
 
 }
 
@@ -280,7 +267,6 @@ function dealCards(arr) {
     onTheBoard.push(e);                     // Adds card object to the onTheTable array. 
 
     domCard.addEventListener('click', () => {
-//      console.log(`you clicked ${e.id}`);
       e.isActive = !e.isActive;
 
       // Check if e is in the SelectedCards array: if not, add it; if yes, find it and remove it.
@@ -373,15 +359,36 @@ dom_dealButton.addEventListener("click", () => {
   dom_dealButton.style.display = "none";
   dom_drawThreeButton.style.display = "flex";
   deckStackText.innerText = "Can't find a set?";
+
+  
+  document.querySelector("input#mode-basic").checked ? gameMode = "basic" : null;
+  const gamemode_novice = document.querySelector("input#mode-novice").checked;
+  const gamemode_intermediate = document.querySelector("input#mode-intermediate").checked;
+  const gamemode_expert = document.querySelector("input#mode-expert").checked;
+
   dom_gameModeSettingsInputs.forEach(e => e.disabled = true);
+
   dom_gameModeSettingsBox.style.opacity = "50%";
   checkForSolutions();
-})
+});
 dom_drawThreeButton.addEventListener("click", () => {
   dealCards(drawThree());
 
   checkForSolutions();
-})
+});
+
+const dom_hintBtn = document.querySelector("#hint-btn");
+dom_hintBtn.addEventListener("click", () => {
+  const dom_hintText = document.querySelector("#hint-text");
+  //const gameMode = document.
+  const sols = checkForSolutions();
+  
+  console.log(sols);
+
+  for (let i=0; i < sols.length; i++) {
+
+  }
+});
 
 //dom_dealButton.click();
 

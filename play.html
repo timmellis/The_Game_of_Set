@@ -27,56 +27,57 @@
 
   <aside id="game-sidebar">
 
-    <div class="set-count-wrapper">
-      <h4>Sets found:</h4>
-      <div id="set-count">0</div>
-    </div>
-    <div class="sets-found-list"></div>
+    <div id="sidebar-top-section">
+      <div class="set-count-wrapper">
+        <h4>Sets found:</h4>
+        <div id="set-count">0</div>
+      </div>
+      <div class="sets-found-list"></div>
 
-    
-    <div class="incorrect-counter-wrapper">
-      Incorrect guesses: <span id="incorrect-counter"></span>
-    </div>
-
-
-    <div class="sidebar-settings-wrapper">
-      <h4>Settings</h4>
       
-      <div id="sidebar-settings">
+      <div class="incorrect-counter-wrapper">
+        Incorrect guesses: <span id="incorrect-counter"></span>
+      </div>
+
+
+      <div class="sidebar-settings-wrapper">
+        <h4>Settings</h4>
         
-        <div class="sidebar-settings-game-mode">
-          <h4>Game Mode:</h4>
-          <input type="radio" name="game-mode" id="mode-basic" value="mode-basic" />
-            <label for="mode-basic">Ya Basic <br />
-              <span class="game-mode-expl">(Number only)</span>
-            </label>
-            <br />
-            <input type="radio" name="game-mode" id="mode-novice" value="mode-novice" />
-            <label for="mode-novice">Novice <br />
-              <span class="game-mode-expl">(Number & Color)</span>
-            </label>
-            <br />
-          <input type="radio" name="game-mode" id="mode-intermediate" value="mode-intermediate" checked /> 
-            <label for="mode-intermediate">Intermediate <br />
-              <span class="game-mode-expl">(Number, Color & Shape)</span>
-            </label> 
-            <br />
-          <input type="radio" name="game-mode" id="mode-expert" value="mode-expert" />
-            <label for="mode-full">Expert (Full Game) <br />
-              <span class="game-mode-expl">(Number, Color, Shape & Fill)</span>
-            </label>
-            <br />
-        </div>
+        <div id="sidebar-settings">
+          
+          <div class="sidebar-settings-game-mode">
+            <h4>Game Mode:</h4>
+            <input type="radio" name="game-mode" id="mode-basic" value="mode-basic" />
+              <label for="mode-basic">Ya Basic <br />
+                <span class="game-mode-expl">(Number only)</span>
+              </label>
+              <br />
+              <input type="radio" name="game-mode" id="mode-novice" value="mode-novice" />
+              <label for="mode-novice">Novice <br />
+                <span class="game-mode-expl">(Number & Color)</span>
+              </label>
+              <br />
+            <input type="radio" name="game-mode" id="mode-intermediate" value="mode-intermediate" checked /> 
+              <label for="mode-intermediate">Intermediate <br />
+                <span class="game-mode-expl">(Number, Color & Shape)</span>
+              </label> 
+              <br />
+            <input type="radio" name="game-mode" id="mode-expert" value="mode-expert" />
+              <label for="mode-full">Expert (Full Game) <br />
+                <span class="game-mode-expl">(Number, Color, Shape & Fill)</span>
+              </label>
+              <br />
+          </div>
 
-<!-- OUTDATED: CHECKBOX FOR WIN CONDITIONS 
-        <input type="checkbox" value="number" name="checkbox-number" id="checkbox-number" checked /> <label for="checkbox-number">Number</label><br />
-        <input type="checkbox" value="color" name="checkbox-color" id="checkbox-color" checked /> <label for="checkbox-color">Color</label><br />
-        <input type="checkbox" value="shape" name="checkbox-shape" id="checkbox-shape" /> <label for="checkbox-shape">Shape</label><br />
-        <input type="checkbox" value="fill" name="checkbox-fill" id="checkbox-fill" /> <label for="checkbox-fill">Fill pattern</label>
--->
-      </div> <!-- End sidebar-settings -->
-    </div> <!-- End "settings wrapper" -->
-
+  <!-- OUTDATED: CHECKBOX FOR WIN CONDITIONS 
+          <input type="checkbox" value="number" name="checkbox-number" id="checkbox-number" checked /> <label for="checkbox-number">Number</label><br />
+          <input type="checkbox" value="color" name="checkbox-color" id="checkbox-color" checked /> <label for="checkbox-color">Color</label><br />
+          <input type="checkbox" value="shape" name="checkbox-shape" id="checkbox-shape" /> <label for="checkbox-shape">Shape</label><br />
+          <input type="checkbox" value="fill" name="checkbox-fill" id="checkbox-fill" /> <label for="checkbox-fill">Fill pattern</label>
+  -->
+        </div> <!-- End sidebar-settings -->
+      </div> <!-- End "settings wrapper" -->
+    </div>
     <div class="deck-stack-btn-wrapper">
       <div id="deck-stack-text">
         Ready to play?
@@ -98,6 +99,11 @@
 
   <div id="game-board">
     
+
+    <div class="hint-box">
+      <div id="hint-btn">Need a hint?</div>
+      <div id="hint-text">Hint text here</div>
+    </div>
   </div>
 
 </main>

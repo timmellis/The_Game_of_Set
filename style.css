@@ -88,6 +88,10 @@ footer {
 
 /* *** Secondary Page Layout *** */
 
+#instructions-page-body {
+  width:100vw;
+}
+
 body.secondary-page {
   display:flex;
   flex-direction: column;
@@ -108,8 +112,10 @@ header.secondary-page {
   font-weight:bold;
 }
 header.secondary-page > .home-button {
-  float:left;
-  font-size:1rem;
+  position: absolute;
+  font-size: 1rem;
+  top: 4px;
+  left: 8px;
 }
 
 /* *** Instructions page *** */
@@ -120,19 +126,52 @@ main.instructions-page {
   align-items: center;
 }
 main.instructions-page .instructions-wrapper {
-  max-width:800px;
+  width: min(800px, 75vw);
 }
 ul#card-features-list {
+  border: solid thin ;
+  border-radius: 16px;
+  padding:12px;
   display:flex;
   flex-direction: row;
   justify-content: space-evenly;
-
 }
 #card-features-list li {
   display: inline-block;
-
 }
-
+#instr-examples-container {
+  width:100%;
+  display:flex;
+  flex-direction:row;
+  justify-content: center;
+} 
+.instr-example-wrapper {
+  display: flex;
+  flex-direction: column;
+  border: solid thin #444;
+  border-radius: 16px;
+  margin: 0 8px;
+}
+.instr-example {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: center;
+}
+#instr-mode-list {
+  width:475px;
+  margin: 0 auto;
+  text-align: justify;
+}
+.instructions-note {
+  border: solid 2px teal;
+  border-radius: 16px;
+  background:white;
+  width:65%;
+  padding: 12px;
+  margin: 0 auto 8px auto;
+  font-style: italic;
+}
 /* *** Play page layout *** */
 main.play-page {
   box-sizing: border-box;
@@ -154,7 +193,7 @@ main.play-page {
 
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   flex: 1;
 } 
@@ -171,17 +210,21 @@ main.play-page {
   font-weight: bold;
 }
 .sets-found-list {
-  width: 85%;
-  height: min(150px, 25%);
-  border: solid thin red;
-  overflow-y: scroll;
+  max-width: 150px;
+  height: 150px;
+  border: solid thin #444;
+  overflow-y: auto;
+  overflow-x:hidden;
 }
-.set-found-wrapper {
+.set-found-wrapper { 
   width:90%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  margin: 1px;
+  margin: 1px auto !important;
+} .set-found-wrapper * {
+  margin: 2px !important;
+  border-radius: 8px;
 }
 .incorrect-counter-wrapper {
   font-size:smaller;
@@ -205,8 +248,7 @@ main.play-page {
 }
 
 .deck-stack-btn-wrapper {
-  position: absolute;
-  bottom: 0px;
+  
 }
 .deck-graphic {
   position: relative;
@@ -260,12 +302,16 @@ main.play-page {
   grid-template-rows: repeat(3, 30%);
   grid-auto-flow: column;  
   grid-gap: 4px;
+  overflow-x: auto;
 }
 .card {
   box-sizing: border-box;
   position: relative;
   width: min(180px, calc((100vw - 150px) / 6));
   height: min(120px, calc((100vw - 150px) / 9));
+    cursor: pointer;
+}
+.card-wrapper {
   margin:4px;
   background: white;
 
@@ -275,8 +321,11 @@ main.play-page {
   flex-direction:rows;
   justify-content: center;
   align-items:center;
-
-  cursor: pointer;
+}
+.card-demo {     /* For instructions */
+  width:120px;
+  height:80px;
+  transform: scale(0.70);
 }
 
 .card-new {
@@ -362,162 +411,22 @@ main.play-page {
   margin: 0 4px;
   border-radius: 4px;  
 } 
-/* .shape-numeral::before, .shape-numeral::after {
-  z-index:10;
-  content: '';
-  position: absolute;
-  width: 20%;
-  height: 100%;
-  top: -4px;
-  background:white;  
-}
-.shape-numeral::before {
-  left: -8px;
-  border-radius: 0 30px 30px 0;
-  border-left-color:transparent;
-} .shape-numeral::after {
-  right: -8px;
-  border-radius: 30px 0 0 30px ;
-  border-right-color:transparent;
-} */
-/* */
 
-
-/* *** GAME PAGE LAYOUT - FLEX MATRIX *** */
-/* -------------------------------------- */
-/* main.play-page {
-  box-sizing: border-box;
-  flex: 22;
-  display: flex;
-  flex-direction: row;
-  height:auto;
+.hint-box {
+  position:absolute;
+  bottom: 10px;
+  right: 50%;
+  margin: 0 auto;
+  text-align: center;
 }
-
-
-#game-board {
-  border: solid thin red;
-
-  flex: 5;
-  box-sizing: border-box;
-  background: aliceblue;
-  padding:8px;
-
-  display: grid;
-  grid-template: 100% / repeat(5, 18%);  
-  grid-gap: 10px;
+.hint-box #hint-btn {
+  border: solid thin #444;
+  border-radius: 16px;
+  padding: 4px 8px;
+  font-weight: bold;
+  cursor: pointer;
+  background: rgba(100, 100, 100, .2);
 }
-.card-col-flex-wrapper {
-  border: solid thin red;
-  height:100%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-
-.card {
-  box-sizing: border-box;
-  height: 30%;
-  width: 80%;
-  margin:4px;
-  background: white;
-
-  border: solid 2px black;
-  border-radius:16px;
-  display: flex;
-  flex-direction:row;
-  justify-content: center;
-  align-items:center;
-}
-.card.selected {
-  box-shadow: 0 0 8px rgb(0, 0, 0);
-}
-
-.shape-object, .shape-object::before, .shape-object::after {
-  border: solid 4px black;
-}
-
-:root {
---colorA: purple;
---colorB: orange;
---colorC: teal;
-}
-.color-A, .color-A::before, .color-A::after {
-  color: var(--colorA);
-  border-color: var(--colorA);
-} .fill-filled.color-A {
-  background-color: var(--colorA);
-} .fill-striped.color-A {
-  background-color: #fff;
-  opacity: 0.9;
-  background-image: linear-gradient(0deg, #fff 65%, var(--colorA) 35%);
-  background-size: 10px 10px;
-}
-.color-B, .color-B::before, .color-B::after {
-  color: var(--colorB);
-  border-color: var(--colorB);
-} .fill-filled.color-B {
-  background-color: var(--colorB);
-} .fill-striped.color-B {
-  background-color: #fff;
-  opacity: 0.9;
-  background-image: linear-gradient(0deg, #fff 65%, var(--colorB) 35%);
-  background-size: 10px 10px;
-}
-.color-C, .color-C::before, .color-C::after {
-  color: var(--colorC);
-  border-color: var(--colorC);
-} .fill-filled.color-C {
-  background-color: var(--colorC);
-} .fill-striped.color-C {
-  background-color: #fff;
-  opacity: 0.9;
-  background-image: linear-gradient(0deg, #fff 65%, var(--colorC) 35%);
-  background-size: 10px 10px;
-}
-.shape-object.fill-empty {
-  background-color: white;
-}
-
-.shape-diamond {
-  height: 34%;
-  width: 22%;
-  transform: rotate(45deg) skew(20deg, 20deg);
-  background-image: (45deg);
-}
-.shape-oval {
-  margin: 0 4px;
-  height: 70%;
-  width: 18%;
-  padding: 0;
-  border-radius: 50%;
-}
-.shape-numeral {
-  z-index:1;
-  height: 70%;
-  width: 18%;
-  position: relative;
-} .shape-numeral::before, .shape-numeral::after {
-  z-index:10;
-  content: '';
-  position: absolute;
-  width: 20%;
-  height: 100%;
-  top: -4px;
-  background:white;  
-}
-.shape-numeral::before {
-  left: -8px;
-  border-radius: 0 30px 30px 0;
-  border-left-color:transparent;
-} .shape-numeral::after {
-  right: -8px;
-  border-radius: 30px 0 0 30px ;
-  border-right-color:transparent;
-} */
-
-
 
 /* FOR REQ'D OVERRIDES */
 

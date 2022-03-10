@@ -11,7 +11,7 @@
 </head>
 
 
-<body class="full-page" id="instructions-page-body">
+<body id="instructions-page-body">
   
 <header class="secondary-page">
   <div class="page-btns home-button"><a href="index.html">Home</a></div>
@@ -20,22 +20,89 @@
 
 <main class="instructions-page" id="instructions-page-main">
   <div class="instructions-wrapper">
-    <h4>Instructions:</h4>
+
+    <h2>Instructions:</h2>
     <p>The object of the game is to identify a SET of 3 cards and remove them from the board.</p>
-    <p>Each card has four distinct features:</p>
+    <p>Each card has one of 3 symbols (ovals, rectangles, diamonds), one of 3 numbers (1-shape, 2-shapes, 3-shapes), one of 3 colors (teal, purple, orange), and one of 3 shadings (filled-in, outlined, shaded).</p>
     
     <ul id="card-features-list">
-      <li>Number</li>
-      <li>Color</li>
-      <li>Shape</li>
-      <li>Shading</li>
+      <li><div>Number:</div>
+        <div class="card-demo card-wrapper" id="C-filled-oval-1"><div class="shape-object color-C fill-filled shape-oval"></div></div>
+        <div class="card-demo card-wrapper" id="C-filled-oval-2"><div class="shape-object color-C fill-filled shape-oval"></div><div class="shape-object color-C fill-filled shape-oval" ></div></div>
+        <div class="card-demo card-wrapper"><div class="shape-object color-C fill-filled shape-oval" ></div><div class="shape-object color-C fill-filled shape-oval" ></div><div class="shape-object color-C fill-filled shape-oval" ></div></div></didv>
+      </li>
+      <li><div>Color:</div>
+        <div class="card-demo card-wrapper" id="C-filled-oval-1"><div class="shape-object color-A fill-filled shape-oval"></div></div>
+        <div class="card-demo card-wrapper" id="C-filled-oval-1"><div class="shape-object color-B fill-filled shape-oval"></div></div>
+        <div class="card-demo card-wrapper" id="C-filled-oval-1"><div class="shape-object color-C fill-filled shape-oval"></div></div></li>
+      <li><div>Shape:</div>
+        <div class="card-demo card-wrapper" id="C-filled-oval-1"><div class="shape-object color-C fill-filled shape-oval"></div></div>
+        <div class="card-demo card-wrapper" id="C-filled-numeral-1"><div class="shape-object color-C fill-filled shape-numeral"></div></div>
+        <div class="card-demo card-wrapper" id="C-filled-diamond-1"><div class="shape-object color-C fill-filled shape-diamond"></div></div></li>
+      <li>Shading:
+        <div class="card-demo card-wrapper" id="C-empty-oval-1"><div class="shape-object color-C fill-empty shape-oval"></div></div>
+        <div class="card-demo card-wrapper" id="C-striped-oval-1"><div class="shape-object color-C fill-striped shape-oval"></div></div>
+        <div class="card-demo card-wrapper" id="C-filled-oval-1"><div class="shape-object color-C fill-filled shape-oval"></div></div>
+      </li>
     </ul>
-    <p>A SET consists of three cards on which each feature is either ALL THE SAME, or ALL DIFFERENT. For example, if each card has one item that would be considered "all the same". If the 1st card had one item, the 2nd card had two items, and the 3rd card has three items, that would be considered "all different".  
-  </div>
 
-  <div id="instructions-content">
+    <p>A SET consists of 3 cards in which <b>each</b> of the cards' features are either <b>all the same</b> on each card, or, are <b>all different</b> on each card. All of the features must separately satisfy this rule.<i>(In other words: shape must be either the same on all 3 cards, or different on each of the 3 cards; color must be either the same on all 3 cards, or different on each of the 3, etc.)</i></p>
+
+    <h4>Game Play</h4>
+
+    <p>12 cards are played to the table. The player clicks on three cards they believe comprise a Set. If they meet the requirements, they are removed from the board and 3 new cards are placed. Otherwise, they remain on the table and play continues.</p>
     
-  </div>
+    <p>Examples:</p>
+    <div id="instr-examples-container">
+      <div class="instr-example-wrapper"> 
+        Same number, same color, <br /> same shape, different shading: 
+        <div class="instr-example">
+          <div class="card-demo card-wrapper" id="C-empty-oval-1">
+            <div class="shape-object color-C fill-empty shape-oval"></div></div>
+            <div class="card-demo card-wrapper" id="C-striped-oval-1"><div class="shape-object color-C fill-striped shape-oval"></div></div>
+            <div class="card-demo card-wrapper" id="C-filled-oval-1"><div class="shape-object color-C fill-filled shape-oval"></div>
+          </div>
+        </div>
+      </div>
+      <div></div>
+      <div class="instr-example-wrapper"> 
+        Different number, different color,<br /> different shape, different shading: 
+        <div class="instr-example">
+          <div class="card-demo card-wrapper" id="A-empty-oval-1">
+            <div class="shape-object color-A fill-empty shape-oval"></div>
+          </div>
+          <div class="card-demo card-wrapper" id="B-striped-numeral-2">
+            <div class="shape-object color-B fill-striped shape-numeral"></div>
+            <div class="shape-object color-B fill-striped shape-numeral"></div>
+          </div>
+          <div class="card-demo card-wrapper" id="C-filled-diamond-3">
+            <div class="shape-object color-C fill-filled shape-diamond"></div>
+            <div class="shape-object color-C fill-filled shape-diamond"></div>
+            <div class="shape-object color-C fill-filled shape-diamond"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p>If there is not a Set on the board, 3 more cards can be dealt to the table. Those 3 cards are not replaced when the next Set is found, reducing the number back to 12.</p>
+
+    <h4>Game Modes</h4>
+
+    <p>The traditional game of SET is generally played with all four criteria required for each Set, which can be difficult. In this game, you can select a difficulty level to make your game play the most enjoyable:</p> 
+      <ul id="instr-mode-list">
+        <li><b>"Novice"</b> requires only numbers and colors to make a Set.</li>
+          <li><b>"Intermediate"</b> requires numbers, colors and shapes to make a Set.</li>
+          <li><b>"Expert"</b> is the full traditional game play.</li>
+          <li><b>"Ya Basic"</b> requires only numbers, and is largely included for very young players or for testing purposes.</li>
+        </ul> 
+    <p>Once a Game Mode is selected and the cards are dealt, the Game Mode cannot be changed.</p>
+
+    <p class="instructions-note">Note: In full traditional game play, there are ~ 33:1 odds that a SET is present in 12 cards, and ~ 2500:1 odds when 15 cards are on the table.</p>
+
+  </div> <!-- end instructions-wrapper -->
+
+
 
 </main>
 
