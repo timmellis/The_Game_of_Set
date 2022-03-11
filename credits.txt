@@ -1,9 +1,0 @@
-
-
-Info sources:
-
-Additional Libraries:
-greensock.com - GSAP and FLIP animation plug-ins
-
-
-Credits also to Alex Barbosa, David Wu, Piero Caceres for deugging help at the 11th hour.
