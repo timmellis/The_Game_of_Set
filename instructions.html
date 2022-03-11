@@ -4,7 +4,11 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Game of SET</title>
+  <title>The Game of Set</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Sansita+Swashed:wght@300;400;500;700&display=swap');
+    </style>    
 
   <link rel="stylesheet" href="style.css" />
 
@@ -14,15 +18,15 @@
 <body id="instructions-page-body">
   
 <header class="secondary-page">
-  <div class="page-btns home-button"><a href="index.html">Home</a></div>
-  <div class="title-bar">The Game of SET</div>
+  <button class="page-btns home-button" onclick="location='index.html';">Home</button>
+  <div class="title-bar">The Game of <span class="fancy-font">S</span>et</div>
 </header>
 
 <main class="instructions-page" id="instructions-page-main">
   <div class="instructions-wrapper">
 
     <h2>Instructions:</h2>
-    <p>The object of the game is to identify a SET of 3 cards and remove them from the board.</p>
+    <p>The object of the game is to identify a Set of 3 cards and remove them from the board.</p>
     <p>Each card has one of 3 symbols (ovals, rectangles, diamonds), one of 3 numbers (1-shape, 2-shapes, 3-shapes), one of 3 colors (teal, purple, orange), and one of 3 shadings (filled-in, outlined, shaded).</p>
     
     <ul id="card-features-list">
@@ -46,7 +50,7 @@
       </li>
     </ul>
 
-    <p>A SET consists of 3 cards in which <b>each</b> of the cards' features are either <b>all the same</b> on each card, or, are <b>all different</b> on each card. All of the features must separately satisfy this rule.<i>(In other words: shape must be either the same on all 3 cards, or different on each of the 3 cards; color must be either the same on all 3 cards, or different on each of the 3, etc.)</i></p>
+    <p>A Set consists of 3 cards in which <b>each</b> of the cards' features are either <b>all the same</b> on each card, or, are <b>all different</b> on each card. All of the features must separately satisfy this rule.<i>(In other words: shape must be either the same on all 3 cards, or different on each of the 3 cards; color must be either the same on all 3 cards, or different on each of the 3, etc.)</i></p>
 
     <h4>Game Play</h4>
 
@@ -96,9 +100,15 @@
           <li><b>"Expert"</b> is the full traditional game play.</li>
           <li><b>"Ya Basic"</b> requires only numbers, and is largely included for very young players or for testing purposes.</li>
         </ul> 
-    <p>Once a Game Mode is selected and the cards are dealt, the Game Mode cannot be changed.</p>
+    <p>Once a Game Mode is selected and the cards are dealt, the Game Mode is locked and cannot be changed.</p>
 
-    <p class="instructions-note">Note: In full traditional game play, there are ~ 33:1 odds that a SET is present in 12 cards, and ~ 2500:1 odds when 15 cards are on the table.</p>
+    <p class="instructions-note">Fun Fact:<br />In full traditional game play, there are ~ 33:1 odds that a Set is present in 12 cards, and ~ 2500:1 odds when 15 cards are on the table.</p>
+
+    <h4>Score</h4>
+    <p>Each Set is worth 3 points, times a multiplier that is based on your selected Game Mode difficulty level, (1x for basic, 2x for novice, 3x for intermediate, and 4x for expert). If the player requires a first hint, score is reduced by 1 x multiplier; a second hint costs 2 x multipler, (in other words, you get no points for using both hints). </p>
+    <p>All that said, I personally do not pay attention to the score at all and would rather enjoy the game as a simple yet complex game of solitaire. </p>
+    <p style="font-weight: bold; font-style: italic;">Enjoy!</p>
+
 
   </div> <!-- end instructions-wrapper -->
 

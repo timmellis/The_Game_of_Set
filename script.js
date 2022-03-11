@@ -4,6 +4,7 @@ const FLIP_ANIM_DURATION = 1;
 const gameBoard = document.querySelector("#game-board");
 const sidebar = document.querySelector("#game-sidebar");
 const setCounter = document.querySelector("#set-count");
+const dom_scoreCount = document.querySelector("#score-count");
 const setsFoundList = document.querySelector(".sets-found-list");
 const dom_gameModeSettingsBox = document.querySelector(".sidebar-settings-game-mode");
 const dom_gameModeSettingsInputs = document.querySelectorAll(".sidebar-settings-game-mode input[type='radio']");
@@ -38,8 +39,10 @@ let deck = [];
 let onTheBoard = [];
 let selectedCards = [];
 let foundSets = [];
+let scoreCounter = 0;
 let incorrectCounter = 0;
 let gameMode = "";
+let gameModeMult = 1;
 let solutions = [];
 let currentHint = [];
 
@@ -106,19 +109,11 @@ function winCheckFill(arr) {
 }
 
 function checkForSet(arr) {
-
-
-    // USING RADIO BUTTONS FOR GAME MODES
-    const gamemode_basic = document.querySelector("input#mode-basic").checked;
-    const gamemode_novice = document.querySelector("input#mode-novice").checked;
-    const gamemode_intermediate = document.querySelector("input#mode-intermediate").checked;
-    const gamemode_expert = document.querySelector("input#mode-expert").checked;
-    
-    if (gamemode_expert) return winCheckNum(arr) && winCheckColor(arr) &&  winCheckShape(arr) && winCheckFill(arr);
-    else if (gamemode_intermediate) return winCheckNum(arr) && winCheckColor(arr) &&  winCheckShape(arr);
-    else if (gamemode_novice) return winCheckNum(arr) && winCheckColor(arr);
-    else if (gamemode_basic) return winCheckNum(arr);
-
+    // Check for Game Mode:
+    if (gameMode == "expert") return winCheckNum(arr) && winCheckColor(arr) &&  winCheckShape(arr) && winCheckFill(arr);
+    else if (gameMode == "intermediate") return winCheckNum(arr) && winCheckColor(arr) &&  winCheckShape(arr);
+    else if (gameMode == "novice") return winCheckNum(arr) && winCheckColor(arr);
+    else if (gameMode == "basic") return winCheckNum(arr);
 }
 
 function submitASet(arr) {
@@ -129,6 +124,10 @@ function submitASet(arr) {
     foundSets.push(selectedCards);
   
     setCounter.innerText = foundSets.length;
+
+    scoreCounter += (3*gameModeMult);
+    scoreCounter < 0 ? scoreCounter = 0 : scoreCounter;
+    dom_scoreCount.innerText = scoreCounter;
 
       const setFoundWrapper = document.createElement("div");
       setFoundWrapper.setAttribute("class","set-found-wrapper");
@@ -174,7 +173,10 @@ function submitASet(arr) {
     // If removing the 3 cards makes the board have <12, draw back up to 12;
     setTimeout(() => {checkBoardSize()}, FLIP_ANIM_DURATION*1000);
 
-
+    // Reset hint system
+    currentHint = [];
+    dom_hintBtn.innerText = "Need a hint?";
+    dom_hintText.style.animation = "fade-out 2s forwards";
   
   } else { 
     incorrectCounter++;
@@ -274,7 +276,10 @@ function dealCards(arr) {
        else if (selectedCards[0] == e) selectedCards.shift();
         else selectedCards.pop();
 
-      e.isActive ? domCard.classList.add("selected") : domCard.classList.remove("selected");
+      if (e.isActive) {
+        domCard.classList.add("selected");
+        domCard.style.animation = "none"; 
+      } else { domCard.classList.remove("selected") };
 
       // If this was the 3rd card, check for win conditions
       if (selectedCards.length > 2) {
@@ -363,10 +368,22 @@ dom_dealButton.addEventListener("click", () => {
   deckStackText.innerText = "Can't find a set?";
   dom_hintBtn.style.display = "inherit";
 
-  document.querySelector("input#mode-basic").checked ? gameMode = "basic" : null;
-  document.querySelector("input#mode-novice").checked? gameMode = "novice" : null;
-  document.querySelector("input#mode-intermediate").checked? gameMode = "intermediate" : null;
-  document.querySelector("input#mode-expert").checked? gameMode = "expert" : null;
+  if (document.querySelector("input#mode-basic").checked) { 
+    gameMode = "basic";
+    gameModeMult = 1;
+  }
+  if (document.querySelector("input#mode-novice").checked) { 
+    gameMode = "novice";
+    gameModeMult = 2;
+  }
+  if (document.querySelector("input#mode-intermediate").checked) { 
+    gameMode = "intermediate";
+    gameModeMult = 3;
+  }
+  if (document.querySelector("input#mode-expert").checked) { 
+    gameMode = "expert";
+    gameModeMult = 4;
+  }
   dom_gameModeSettingsInputs.forEach(e => e.disabled = true);
 
   dom_gameModeSettingsBox.style.opacity = "50%";
@@ -376,11 +393,6 @@ dom_dealButton.addEventListener("click", () => {
 // FOR ALL SUBSEQUENT CARD DRAWS, INCLUDING COMPUTER-INITIATED ONES:
 dom_drawThreeButton.addEventListener("click", () => {
   dealCards(drawThree());
-
-  checkForSolutions();
-  currentHint = [];
-  dom_hintBtn.innerText = "Need a hint?";
-  dom_hintText.innerText = "";
 });
 
 // FOR THE HINT BUTTON
@@ -388,54 +400,55 @@ dom_hintBtn.addEventListener("click", () => {
   
   // ON first HINT click:
   if (!currentHint.length) {
-    //const gameMode = document.
+
+    scoreCounter -= gameModeMult;   // penalty for taking a 1st hint (1/3 of points)
+    
     const sols = checkForSolutions();
     const randIndex = Math.floor(Math.random() * sols.length);
     currentHint = sols[randIndex];
     
-    console.log(sols);
-    console.log("Current Hint: ", currentHint);
-
     const numSame = currentHint[0].number == currentHint[1].number;
     const colSame = currentHint[0].color == currentHint[1].color;
     const shapeSame = currentHint[0].shape == currentHint[1].shape;
     const fillSame = currentHint[0].fill == currentHint[1].fill;
 
     let hint1 = "";
-    if (gameMode=="basic") {
+    if (gameMode == "basic") {
       if (numSame) hint1 += `You can make a Set using all the same number...`; 
       else hint1 += "You can make a Set using all different numbers...";
     }
-    else if (gameMode=="novice") {
+    else if (gameMode == "novice") {
       if (colSame) hint1 += "You can make a Set using all the same color..."
       else if (numSame) hint1 += "You can make a Set using all the same number..."
       else hint1 += "You can make a Set where both colors and numbers are ALL different...";
     }
-    else if (gameMode!=="intermediate") {
+    else if (gameMode == "intermediate") {
       if (colSame) hint1 += "You can make a Set using all the same color..."
       else if (shapeSame) hint1 += "You can make a Set using all the same shape..."
       else if (numSame) hint1 += "You can make a Set using all the same number..."
       else hint1 += "You can make a Set where colors, shapes and numbers are ALL different...";
     }
-    else if (gameMode!=="expert") {
+    else if (gameMode == "expert") {
       if (colSame) hint1 += "You can make a Set using all the same color..."
       else if (shapeSame) hint1 += "You can make a Set using all the same shape..."
       else if (fillSame) hint1 += "You can make a Set using all the same fill pattern..."
       else if (numSame) hint1 += "You can make a Set using all the same number..."
       else hint1 += "You can make a Set where ALL elements are different...";
     }
-    
+    console.log(hint1);
     dom_hintText.innerText = hint1;
+    dom_hintText.style.animation = "fade-in 4s";
     dom_hintBtn.innerText = "Need a bigger hint?";
 
-  }
-  else {
+  } // End first hint section
+  else {        // second hint section 
+
+    scoreCounter -= 2*gameModeMult;   // penalty for taking a 2nd hint (2/3 of points)
+
     const cardHint1 = document.querySelector(`[data-id-num="${currentHint[0].id_num}"]`);
     const cardHint2 = document.querySelector(`[data-id-num="${currentHint[1].id_num}"]`);
-    cardHint1.click();
-    cardHint2.click();
-    cardHint1.style.boxShadow = "0px 0px 12px 8px orange";
-    cardHint2.style.boxShadow = "0px 0px 12px 8px orange";
+    cardHint1.style.animation = "glow-fade-in-out 3s infinite";
+    cardHint2.style.animation = "glow-fade-in-out 3s infinite";
   }
 });
 

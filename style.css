@@ -7,6 +7,8 @@ html, body {
   margin: 0;
   padding: 0;
   background-color: aliceblue;
+
+  font-family: 'Comfortaa', cursive;
 }
 
 
@@ -60,6 +62,7 @@ body.full-page {
   background: rgb(255, 255, 255);
   font-weight:bold;
   box-shadow: 4px 2px 8px #444;
+  color:#444;
 }
 
 footer {
@@ -116,6 +119,7 @@ header.secondary-page > .home-button {
   font-size: 1rem;
   top: 4px;
   left: 8px;
+  color:#444;
 }
 
 /* *** Instructions page *** */
@@ -146,6 +150,7 @@ ul#card-features-list {
   justify-content: center;
 } 
 .instr-example-wrapper {
+  background: skyblue;
   display: flex;
   flex-direction: column;
   border: solid thin #444;
@@ -163,11 +168,11 @@ ul#card-features-list {
   margin: 0 auto;
   text-align: justify;
 }
-.instructions-note {
+main.instructions-page .instructions-note {
+  background: skyblue !important;
   border: solid 2px teal;
   border-radius: 16px;
-  background:white;
-  width:65%;
+  width:85%;
   padding: 12px;
   margin: 0 auto 8px auto;
   font-style: italic;
@@ -198,14 +203,14 @@ main.play-page {
   flex: 1;
 } 
 #game-sidebar * {
-  margin: 8px auto;
+  margin: 4px auto;
 }
-#game-sidebar .set-count-wrapper {
-  margin-bottom: 12px;
-} 
 .set-count-wrapper h4 {
+  display: inline;
   margin: 4px;
-} #set-count {
+} 
+#set-count, #score-count {
+  display: inline;
   font-size: 1.2em;
   font-weight: bold;
 }
@@ -243,7 +248,7 @@ main.play-page {
 }
 #sidebar-settings span.game-mode-expl {
   margin-left:8px;
-  font-size:smaller;
+  font-size:xx-small;
   font-style: italic;
 }
 
@@ -419,6 +424,20 @@ main.play-page {
   margin: 0 auto;
   text-align: center;
 }
+
+@keyframes fade-in {
+  0% { opacity: 0% }
+  100% { opacity: 100% }
+} 
+@keyframes fade-out {
+  0% { opacity: 100% }
+  100% { opacity: 0% }
+}
+@keyframes glow-fade-in-out {
+  0%, 100% { box-shadow: 0px 0px 0px 0px orange}
+  50% { box-shadow: 0px 0px 12px 6px orange }
+}
+
 .hint-box #hint-text {
   color: #444;
   font-style: italic;
@@ -435,12 +454,7 @@ main.play-page {
   background: rgba(100, 100, 100, .2);
 }
 
-/* FOR REQ'D OVERRIDES */
-
-/* .shape-object[data-shape-mult="1"] {
-  display:none;
-} */
-
-
-
-
+.fancy-font {
+  font-family: 'Sansita Swashed', cursive;
+  font-size:larger;
+}
