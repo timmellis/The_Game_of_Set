@@ -415,13 +415,20 @@ main.play-page {
 .hint-box {
   position:absolute;
   bottom: 10px;
-  right: 50%;
+  width:99%;
   margin: 0 auto;
   text-align: center;
 }
+.hint-box #hint-text {
+  color: #444;
+  font-style: italic;
+}
 .hint-box #hint-btn {
+  display: none;
+  width: fit-content;
   border: solid thin #444;
   border-radius: 16px;
+  margin: 4px auto;
   padding: 4px 8px;
   font-weight: bold;
   cursor: pointer;

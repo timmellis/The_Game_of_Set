@@ -1,10 +1,5 @@
-// ***** GAME MODE DEFAULTS VIA CHECKBOXES (OUTDATED) ***** //
-// document.querySelector("#checkbox-number").checked = true;
-// document.querySelector("#checkbox-color").checked = true;
-// document.querySelector("#checkbox-shape").checked = true;
-// document.querySelector("#checkbox-fill").checked = false;
-
-
+// **** USE THIS TO SET THE LENGTH OF THE "DEAL CARD" ANIMATION
+const FLIP_ANIM_DURATION = 1; 
 
 const gameBoard = document.querySelector("#game-board");
 const sidebar = document.querySelector("#game-sidebar");
@@ -16,7 +11,9 @@ const deckSizeCounter = document.querySelector("#deck-size");
 const dom_dealButton = document.querySelector("#deal-btn-init")
 const dom_drawThreeButton = document.querySelector("#draw-three-btn");
 const deckStackText = document.querySelector("#deck-stack-text");
-const FLIP_ANIM_DURATION = 1;
+const dom_hintBtn = document.querySelector("#hint-btn");
+const dom_hintText = document.querySelector("#hint-text");
+
 
 const options = {
   "number": [1, 2, 3],
@@ -44,6 +41,7 @@ let foundSets = [];
 let incorrectCounter = 0;
 let gameMode = "";
 let solutions = [];
+let currentHint = [];
 
 
 // Generate the complete deck
@@ -145,6 +143,7 @@ function submitASet(arr) {
       e.style.height = "22px";
       e.style.borderWidth = "1px";
       e.style.borderRadius = "4px";
+      e.style.boxShadow = "none";
       e.style.cursor = "default";
       setFoundWrapper.appendChild(e);
       Array.from(e.children).forEach(c => {
@@ -173,7 +172,7 @@ function submitASet(arr) {
     });
 
     // If removing the 3 cards makes the board have <12, draw back up to 12;
-    setTimeout(() => {checkBoardSize()}, 1000);
+    setTimeout(() => {checkBoardSize()}, FLIP_ANIM_DURATION*1000);
 
 
   
@@ -233,6 +232,7 @@ function dealCards(arr) {
     const domCard = document.createElement("div");
     domCard.setAttribute("class","card card-wrapper");
     domCard.setAttribute("id", `${e.id}`);
+    domCard.setAttribute("data-id-num",e.id_num);
 
     // Create and append "shape" div n number of times, based on current object's "number" value
     let n = parseInt(e.number);
@@ -351,7 +351,9 @@ function fullReset() {
 
 
 
-///// EVENT LISTENERS
+/////////////////////// EVENT LISTENERS
+
+// TO START THE GAME AND DRAW 12 CARDS
 dom_dealButton.addEventListener("click", () => {
   for (let i=0; i < 4; i++) {
     dealCards(drawThree());
@@ -359,34 +361,81 @@ dom_dealButton.addEventListener("click", () => {
   dom_dealButton.style.display = "none";
   dom_drawThreeButton.style.display = "flex";
   deckStackText.innerText = "Can't find a set?";
+  dom_hintBtn.style.display = "inherit";
 
-  
   document.querySelector("input#mode-basic").checked ? gameMode = "basic" : null;
-  const gamemode_novice = document.querySelector("input#mode-novice").checked;
-  const gamemode_intermediate = document.querySelector("input#mode-intermediate").checked;
-  const gamemode_expert = document.querySelector("input#mode-expert").checked;
-
+  document.querySelector("input#mode-novice").checked? gameMode = "novice" : null;
+  document.querySelector("input#mode-intermediate").checked? gameMode = "intermediate" : null;
+  document.querySelector("input#mode-expert").checked? gameMode = "expert" : null;
   dom_gameModeSettingsInputs.forEach(e => e.disabled = true);
 
   dom_gameModeSettingsBox.style.opacity = "50%";
   checkForSolutions();
 });
+
+// FOR ALL SUBSEQUENT CARD DRAWS, INCLUDING COMPUTER-INITIATED ONES:
 dom_drawThreeButton.addEventListener("click", () => {
   dealCards(drawThree());
 
   checkForSolutions();
+  currentHint = [];
+  dom_hintBtn.innerText = "Need a hint?";
+  dom_hintText.innerText = "";
 });
 
-const dom_hintBtn = document.querySelector("#hint-btn");
+// FOR THE HINT BUTTON
 dom_hintBtn.addEventListener("click", () => {
-  const dom_hintText = document.querySelector("#hint-text");
-  //const gameMode = document.
-  const sols = checkForSolutions();
   
-  console.log(sols);
+  // ON first HINT click:
+  if (!currentHint.length) {
+    //const gameMode = document.
+    const sols = checkForSolutions();
+    const randIndex = Math.floor(Math.random() * sols.length);
+    currentHint = sols[randIndex];
+    
+    console.log(sols);
+    console.log("Current Hint: ", currentHint);
 
-  for (let i=0; i < sols.length; i++) {
+    const numSame = currentHint[0].number == currentHint[1].number;
+    const colSame = currentHint[0].color == currentHint[1].color;
+    const shapeSame = currentHint[0].shape == currentHint[1].shape;
+    const fillSame = currentHint[0].fill == currentHint[1].fill;
 
+    let hint1 = "";
+    if (gameMode=="basic") {
+      if (numSame) hint1 += `You can make a Set using all the same number...`; 
+      else hint1 += "You can make a Set using all different numbers...";
+    }
+    else if (gameMode=="novice") {
+      if (colSame) hint1 += "You can make a Set using all the same color..."
+      else if (numSame) hint1 += "You can make a Set using all the same number..."
+      else hint1 += "You can make a Set where both colors and numbers are ALL different...";
+    }
+    else if (gameMode!=="intermediate") {
+      if (colSame) hint1 += "You can make a Set using all the same color..."
+      else if (shapeSame) hint1 += "You can make a Set using all the same shape..."
+      else if (numSame) hint1 += "You can make a Set using all the same number..."
+      else hint1 += "You can make a Set where colors, shapes and numbers are ALL different...";
+    }
+    else if (gameMode!=="expert") {
+      if (colSame) hint1 += "You can make a Set using all the same color..."
+      else if (shapeSame) hint1 += "You can make a Set using all the same shape..."
+      else if (fillSame) hint1 += "You can make a Set using all the same fill pattern..."
+      else if (numSame) hint1 += "You can make a Set using all the same number..."
+      else hint1 += "You can make a Set where ALL elements are different...";
+    }
+    
+    dom_hintText.innerText = hint1;
+    dom_hintBtn.innerText = "Need a bigger hint?";
+
+  }
+  else {
+    const cardHint1 = document.querySelector(`[data-id-num="${currentHint[0].id_num}"]`);
+    const cardHint2 = document.querySelector(`[data-id-num="${currentHint[1].id_num}"]`);
+    cardHint1.click();
+    cardHint2.click();
+    cardHint1.style.boxShadow = "0px 0px 12px 8px orange";
+    cardHint2.style.boxShadow = "0px 0px 12px 8px orange";
   }
 });
 
