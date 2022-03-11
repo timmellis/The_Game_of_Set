@@ -138,8 +138,8 @@ function submitASet(arr) {
     selectedDomCards.forEach(e => {
       //const thisWidth = e.offsetWidth;
       e.style.position = "relative";
-      e.style.width = "35px";
-      e.style.height = "22px";
+      e.style.width = "46px";
+      e.style.height = "28px";
       e.style.borderWidth = "1px";
       e.style.borderRadius = "4px";
       e.style.boxShadow = "none";
@@ -366,7 +366,7 @@ dom_dealButton.addEventListener("click", () => {
   dom_dealButton.style.display = "none";
   dom_drawThreeButton.style.display = "flex";
   deckStackText.innerText = "Can't find a set?";
-  dom_hintBtn.style.display = "inherit";
+  dom_hintBtn.style.animation = "fade-in 3s forwards";
 
   if (document.querySelector("input#mode-basic").checked) { 
     gameMode = "basic";
