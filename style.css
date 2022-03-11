@@ -1,17 +1,17 @@
-
-
-
-
-/* *** SPLASH PAGE STYLES *** */
+/* *** DEFAULTS ** */
 html, body {
+  font-family: 'Comfortaa', cursive;
   margin: 0;
   padding: 0;
   background-color: aliceblue;
-
-  font-family: 'Comfortaa', cursive;
 }
 
+.fancy-font {
+  font-family: 'Sansita Swashed', cursive;
+  font-size:larger;
+}
 
+/* *** SPLASH PAGE STYLES *** */
 /*  Splash page layout *** */
 body.full-page {
   height: 100vh;
@@ -23,17 +23,16 @@ body.full-page {
 #splash-main, #instructions-page-main {
   flex: 9;
   box-sizing: border-box;
+
   width: 100%;
+  margin: 0 auto; 
+  background-color: aliceblue;
+  text-align: center;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  text-align: center;
-  margin: 0 auto; 
-  background-color: aliceblue;
 }
-
 #splash-title {
   font-size: 2rem;
   font-weight: bold;
@@ -41,11 +40,12 @@ body.full-page {
 
 .splash-btns {
   margin: 0 auto; 
+  width:400px;
+
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width:400px;
 } 
 .splash-btns .page-btns {
   width: 40%;
@@ -83,10 +83,6 @@ footer {
 .title-footer {
   font-style: italic;
 }
-
-
-
-
 
 
 /* *** Secondary Page Layout *** */
@@ -132,6 +128,7 @@ main.instructions-page {
 main.instructions-page .instructions-wrapper {
   width: min(800px, 75vw);
 }
+
 ul#card-features-list {
   border: solid thin ;
   border-radius: 16px;
@@ -177,7 +174,10 @@ main.instructions-page .instructions-note {
   margin: 0 auto 8px auto;
   font-style: italic;
 }
+
+
 /* *** Play page layout *** */
+
 main.play-page {
   box-sizing: border-box;
   flex: 22;
@@ -251,9 +251,6 @@ main.play-page {
   font-style: italic;
 }
 
-.deck-stack-btn-wrapper {
-  
-}
 .deck-graphic {
   position: relative;
   width: 100px;
@@ -292,9 +289,6 @@ main.play-page {
 
 /* *** GAME PAGE LAYOUT - GRID *** */
 /* ------------------------------ */
-/* /* (Hidden inside > ) */
-
-
 #game-board {
   flex: 5;
   box-sizing: border-box;
@@ -451,9 +445,4 @@ main.play-page {
   font-weight: bold;
   cursor: pointer;
   background: rgba(100, 100, 100, .2);
-}
-
-.fancy-font {
-  font-family: 'Sansita Swashed', cursive;
-  font-size:larger;
 }

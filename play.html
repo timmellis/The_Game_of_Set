@@ -12,11 +12,9 @@
   <link rel="stylesheet" href="style.css" />
 
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/Flip.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/Flip.min.js"></script>
 
-<script defer src="script.js"></script>
-
-
+  <script defer src="script.js"></script>
 
 </head>
 
@@ -30,6 +28,8 @@
 
 <main class="play-page" id="play-page-main">
 
+
+  <!-- GAME SIDEBAR SECTION -->
   <aside id="game-sidebar">
 
     <div id="sidebar-top-section">
@@ -43,13 +43,12 @@
       </div>
 
       <div class="sets-found-list"></div>
-
-      
+    
       <div class="incorrect-counter-wrapper">
         Incorrect guesses: <span id="incorrect-counter"></span>
       </div>
 
-
+      <!-- GAME MODE SELECTORS -->
       <div class="sidebar-settings-wrapper">
         <h4>Settings</h4>
         
@@ -82,6 +81,8 @@
         </div> <!-- End sidebar-settings -->
       </div> <!-- End "settings wrapper" -->
     </div>
+
+    <!-- DECK STACK GRAPHIC AND BUTTONS -->
     <div class="deck-stack-btn-wrapper">
       <div id="deck-stack-text">
         Ready to play?
@@ -101,9 +102,9 @@
     </div>
   </aside>
 
+  <!-- GAME BOARD SECTION (starts empty, populated by js)-->
   <div id="game-board">
-    
-
+  
     <div class="hint-box">
       <div id="hint-text"></div>
       <div id="hint-btn">Need a hint?</div>
