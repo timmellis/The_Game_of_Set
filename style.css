@@ -276,14 +276,23 @@ main.play-page {
   align-items: center;
   
   cursor: pointer;
+  transition: box-shadow 0.5s ease-in-out;
+
 }
+.deck-stack-btn:hover {
+  box-shadow: 0 0 15px 2px skyblue;
+} 
 .deck-graphic .deck-btn-text {
   font-weight:bold;
   margin:0;
   padding: 4px 6px;
   background: rgba(255,255,255,.65);
-  box-shadow: 0 0 10px 5px #fff;
+  box-shadow: 0 0 10px 5px white;
   border-radius: 8px;
+  transition: box-shadow 0.5s ease-in-out;
+} 
+.deck-stack-btn:hover > .deck-btn-text {
+  box-shadow: 0 0 15px 8px white;
 }
 
 
@@ -307,7 +316,12 @@ main.play-page {
   position: relative;
   width: min(180px, calc((100vw - 150px) / 6));
   height: min(120px, calc((100vw - 150px) / 9));
-    cursor: pointer;
+
+  cursor: pointer;
+  transition: box-shadow 0.15s ease-in-out;
+} 
+.card:hover {
+  box-shadow: 0px 2px 12px skyblue;
 }
 .card-wrapper {
   margin:4px;
@@ -410,13 +424,7 @@ main.play-page {
   border-radius: 4px;  
 } 
 
-.hint-box {
-  position:absolute;
-  bottom: 10px;
-  width:99%;
-  margin: 0 auto;
-  text-align: center;
-}
+
 
 @keyframes fade-in {
   0% { opacity: 0% }
@@ -431,6 +439,13 @@ main.play-page {
   50% { box-shadow: 0px 0px 12px 6px orange }
 }
 
+.hint-box {
+  position:absolute;
+  bottom: 10px;
+  width:99%;
+  margin: 0 auto;
+  text-align: center;
+}
 .hint-box #hint-text {
   color: darkorange;
   font-style: italic;
@@ -445,4 +460,8 @@ main.play-page {
   font-weight: bold;
   cursor: pointer;
   background: rgba(100, 100, 100, .2);
+  transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+} .hint-box #hint-btn:hover {
+  background-color:rgba(100,100,100,.1);
+  box-shadow: 0 0 4px skyblue;
 }
