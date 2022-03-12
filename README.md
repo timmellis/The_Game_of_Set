@@ -3,10 +3,14 @@
 
 *Created by Tim E. as part of the General Assembly SEI Program, Mar. 2022*
 
+## Current Deployment on Surge
+The current version of this project can be found at: [tellis-thegameofset.surge.sh/](https://tellis-thegameofset.surge.sh/)
 
-### Description
+## Description
 
 ![Original game](https://www.ultraboardgames.com/set/gfx/components.jpg)
+
+*(Image © SET enterprises & ultraboardgames.com)*
 
 SET is a card game based on logic and visual reasoning, in which players race to find as many SETs as they can. The game is quite fun, and definitely exercises the brain: because it has a rule of logic, and because players must apply this rule to the spatial array of patterns all at once, they must use both left brain and right brain thought processes. It's great as a solo game, or in a group. 
 
@@ -59,18 +63,33 @@ Some added features were simple: "play mode" simply checks to see what the diffi
 
 In the end, I felt pretty good about my development this week, and even got ahead of schedule on my  [Trello Board](https://trello.com/b/rqeBxQwd/ga-project-1-workflow-board) by midweek, giving me more time to puzzle out the more complicated extra features.
 
+### Technologies used
+- HTML/CSS3
+- Javascript
+- Git / Github
+
 ## Final Outcome
 
-I am pleased to be able to check off ALL of the MVP criteria, as well as a number of additional features, including one or two that I initially thought were wild pipe-dreams, including:
+You can find the current deployment of the game at: [tellis-thegameofset.surge.sh/](https://tellis-thegameofset.surge.sh/)
+
+I am pleased to have been able to check off ALL of the MVP criteria, as well as a number of additional features, (including one or two that I initially thought were wild pipe-dreams), including:
 
 - CSS Animation for dealing of the cards.
-- Difficulty-level game modes, (i.e. requiring only 2 or 3 "individual features" instead of all 4)
-- Keeping a DOM-based log of Sets found
+- "Set" counter, "score" counter, "incorrect guesses" counter, "cards remaining" counter
+- Difficulty-levels aka Game Modes, (i.e. requiring only 1, 2 or 3 "individual features" instead of all 4)
+- Keeping a DOM-based record of Sets found
 - Tracking all available Sets, and providing hints to the player.
 
 ![Game demo image](images/screenshot-game-demo.png)
 
-### Credits
+## Future Development
+
+I plan to spend a few more hours on this project at least, working out a few kinks and adding a few features I didn't have time to implement. Some of these include:
+- A counter that notifies the player how many Sets are currently possible using the cards on the board
+- A robust end-game interaction
+- A long-term tracker that saves stats like "games completed" and "all time high score", perhaps even split apart by Game Mode difficulty levels.  
+
+## Credits
 During development, I relied on a number of sources outside of the ubiquitous documentational and instructional sites. I would like to credit the following additional sources:
 - Animation Libraries from GreenSock.com: [GSAP (core library)](https://greensock.com/docs/v3/GSAP) and [Flip plugin](https://greensock.com/docs/v3/Plugins/Flip) 
 - Game rules: [SET Card game wikipedia page](https://en.wikipedia.org/wiki/Set_(card_game)) (for game rules)
