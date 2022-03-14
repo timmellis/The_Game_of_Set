@@ -60,7 +60,7 @@ let gameMode = "";
 let gameModeMult = 1;
 let solutions = [];
 let currentHint = [];
-let highScore = 0;
+let highScore = window.localStorage.getItem("high_score");
 
 
 //////////////////////////////////////////////////////
@@ -125,14 +125,40 @@ function fullReset() {
   scoreCounter = 0;
     dom_scoreCount.innerText = scoreCounter;
   incorrectCounter = 0;
-    dom_
+    dom_incorrectCounter.innerText = 0;
   gameMode = "";
   gameModeMult = 1;
   solutions = [];
   currentHint = [];
-  highScore = 0;
-  makeDeck();
+  highScore = window.localStorage.getItem("high_score");
+
+  makeDeck();         // CALL the MAKEDECK FUNCTION to build deck
 }         // End fullReset() function
+
+//
+function checkEndGame() {
+  if (deck.length == 0 && checkForSolutions().length == 0) {
+    // deck.length == 0 && checkForSolutions().length == 0
+
+    if (scoreCounter > highScore) highScore = scoreCounter;
+
+    //console.log("Nearing endgame!");
+    if (onTheBoard.length == 0) {
+
+      gameOverScreen_text.innerHTML = `You cleared all Sets!<br />Congratulations!`;
+    }
+    else if (onTheBoard.length > 0) {
+
+      gameOverScreen_text.innerHTML = `There are no more Sets!<br />Game over!`;      
+    } 
+
+    gameOverScreen.style.display = "flex";
+    gameOverScreen_score.innerText = scoreCounter;
+    gameOverScreen_highscore.innerText = highScore; 
+
+    window.localStorage.setItem("high_score", highScore);
+  }
+}
 
 // CORE FUNCTION for DRAWING CARDS:
 function draw() {
@@ -154,36 +180,10 @@ function drawThree() {
 
 // FUNCTION to determine board size, draw new cards if less than 12
 function checkBoardSize() {
-  checkForSolutions();
-  console.info("check board size:", {onTheBoard, deck, solutions});
-
   if (deck.length >= 3) {
     return onTheBoard.length < 12 ? dom_drawThreeButton.click() : null;
   } 
-  else if (deck.length == 0 && checkForSolutions().length > 0) {
-    console.log(`deck.length == 0, but checkForSolutions() returns true!`);
-    return null;
-  }
-  else {    // deck.length == 0 && checkForSolutions().length == 0
-    console.log(`deck.length == 0 AND checkForSolutions() returns false!`);
-
-    if (scoreCounter > highScore) highScore = scoreCounter;
-
-    //console.log("Nearing endgame!");
-    if (onTheBoard.length == 0) {
-      console.log(`onTheBoard.length == 0! Empty Board!`);
-
-      gameOverScreen_text.innerHTML = `You cleared all Sets!<br />Congratulations!`;
-    }
-    else if (onTheBoard.length > 0) {
-      console.log(`deck.length == 0, but checkForSolutions().length > 0!`);
-
-      gameOverScreen_text.innerHTML = `There are no more Sets!<br />Game over!`;      
-    } 
-    gameOverScreen.style.display = "flex";
-    gameOverScreen_score.innerText = scoreCounter;
-    gameOverScreen_highscore.innerText = highScore; // GET THIS FROM SOME LOCAL VARIABLE. 
-  }
+  else checkEndGame();
 }
 
 ///////////////////////////////////
@@ -525,12 +525,12 @@ dom_playAgainBtn.addEventListener("click", () => {
 
 
 
-// // TROUBLESHOOTING FOR ENDGAME: TRIM THE DECK DOWN TO 15 CARDS
-// for (let i=0; i < 81-15; i++) {
-//   let r = Math.floor(Math.random() * deck.length);
-//   deck.splice(r,1);
+// TROUBLESHOOTING FOR ENDGAME: TRIM THE DECK DOWN TO 15 CARDS
+for (let i=0; i < 81-15; i++) {
+  let r = Math.floor(Math.random() * deck.length);
+  deck.splice(r,1);
 
-//   // OR:
+  // OR:
 
-//   // deck.pop();
-// }
+  // deck.pop();
+}
