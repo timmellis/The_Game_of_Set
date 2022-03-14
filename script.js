@@ -525,12 +525,12 @@ dom_playAgainBtn.addEventListener("click", () => {
 
 
 
-// TROUBLESHOOTING FOR ENDGAME: TRIM THE DECK DOWN TO 15 CARDS
-for (let i=0; i < 81-15; i++) {
-  let r = Math.floor(Math.random() * deck.length);
-  deck.splice(r,1);
+// // TROUBLESHOOTING FOR ENDGAME: TRIM THE DECK DOWN TO 15 CARDS
+// for (let i=0; i < 81-15; i++) {
+//   let r = Math.floor(Math.random() * deck.length);
+//   deck.splice(r,1);
 
-  // OR:
+//   // OR:
 
-  // deck.pop();
-}
+//   // deck.pop();
+// }
