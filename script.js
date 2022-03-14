@@ -9,6 +9,7 @@ const gameBoard = document.querySelector("#game-board");
 const sidebar = document.querySelector("#game-sidebar");
 const setCounter = document.querySelector("#set-count");
 const dom_scoreCount = document.querySelector("#score-count");
+const dom_incorrectCounter = document.querySelector("#incorrect-counter")
 const setsFoundList = document.querySelector(".sets-found-list");
 const dom_gameModeSettingsBox = document.querySelector(".sidebar-settings-game-mode");
 const dom_gameModeSettingsInputs = document.querySelectorAll(".sidebar-settings-game-mode input[type='radio']");
@@ -18,7 +19,12 @@ const dom_drawThreeButton = document.querySelector("#draw-three-btn");
 const deckStackText = document.querySelector("#deck-stack-text");
 const dom_hintBtn = document.querySelector("#hint-btn");
 const dom_hintText = document.querySelector("#hint-text");
+const gameOverScreen = document.querySelector(".game-over-screen");
+const gameOverScreen_text = document.querySelector("#game-over-text");
+const gameOverScreen_score = document.querySelector(".game-over-screen span#this-game-score");
+const gameOverScreen_highscore = document.querySelector(".game-over-screen span#high-score");
 
+const dom_playAgainBtn = document.querySelector("#play-again-btn");
 
 //////////////////////////////////////////////////////
 ////////////////// GLOBAL VARIABLES ////////////////// 
@@ -54,7 +60,7 @@ let gameMode = "";
 let gameModeMult = 1;
 let solutions = [];
 let currentHint = [];
-
+let highScore = 0;
 
 
 //////////////////////////////////////////////////////
@@ -77,6 +83,7 @@ function makeDeck() {
     }
   }
 }
+
 makeDeck();         // CALL the MAKEDECK FUNCTION to build deck
 
 
@@ -84,6 +91,48 @@ makeDeck();         // CALL the MAKEDECK FUNCTION to build deck
 //////////////////////////////////////////////////////
 ////////////////////// FUNCTIONS ///////////////////// 
 //////////////////////////////////////////////////////
+
+
+///// RESET FUNCTION /////
+
+function fullReset() {
+  const allCards = document.querySelectorAll(".card");
+  allCards.forEach(e => e.remove());
+  const allCardWrappers = document.querySelectorAll(".card-wrapper");
+  allCardWrappers.forEach(e => e.remove());  
+  setCounter.innerText = "0";
+  setsFoundList.innerHTML = "";
+
+  dom_dealButton.style.display = "flex";
+  dom_drawThreeButton.style.display = "none";
+  deckStackText.innerText = "Ready to play?";
+  
+  dom_hintBtn.style.removeProperty('animation');
+  dom_hintBtn.style.opacity = "0";
+
+
+  dom_gameModeSettingsInputs.forEach(e => e.disabled = false);
+
+  dom_gameModeSettingsBox.style.opacity = "100%";
+  
+
+  gameOverScreen.style.display = "none";
+
+  deck = [];
+  onTheBoard = [];
+  selectedCards = [];
+  foundSets = [];
+  scoreCounter = 0;
+    dom_scoreCount.innerText = scoreCounter;
+  incorrectCounter = 0;
+    dom_
+  gameMode = "";
+  gameModeMult = 1;
+  solutions = [];
+  currentHint = [];
+  highScore = 0;
+  makeDeck();
+}         // End fullReset() function
 
 // CORE FUNCTION for DRAWING CARDS:
 function draw() {
@@ -105,7 +154,36 @@ function drawThree() {
 
 // FUNCTION to determine board size, draw new cards if less than 12
 function checkBoardSize() {
-  return onTheBoard.length < 12 ? dom_drawThreeButton.click() : true;
+  checkForSolutions();
+  console.info("check board size:", {onTheBoard, deck, solutions});
+
+  if (deck.length >= 3) {
+    return onTheBoard.length < 12 ? dom_drawThreeButton.click() : null;
+  } 
+  else if (deck.length == 0 && checkForSolutions().length > 0) {
+    console.log(`deck.length == 0, but checkForSolutions() returns true!`);
+    return null;
+  }
+  else {    // deck.length == 0 && checkForSolutions().length == 0
+    console.log(`deck.length == 0 AND checkForSolutions() returns false!`);
+
+    if (scoreCounter > highScore) highScore = scoreCounter;
+
+    //console.log("Nearing endgame!");
+    if (onTheBoard.length == 0) {
+      console.log(`onTheBoard.length == 0! Empty Board!`);
+
+      gameOverScreen_text.innerHTML = `You cleared all Sets!<br />Congratulations!`;
+    }
+    else if (onTheBoard.length > 0) {
+      console.log(`deck.length == 0, but checkForSolutions().length > 0!`);
+
+      gameOverScreen_text.innerHTML = `There are no more Sets!<br />Game over!`;      
+    } 
+    gameOverScreen.style.display = "flex";
+    gameOverScreen_score.innerText = scoreCounter;
+    gameOverScreen_highscore.innerText = highScore; // GET THIS FROM SOME LOCAL VARIABLE. 
+  }
 }
 
 ///////////////////////////////////
@@ -220,7 +298,7 @@ function submitASet(arr) {
     selectedDomCards.forEach(e => {
       e.classList.add("selected-wrong");
     });
-    document.querySelector("#incorrect-counter").innerText = incorrectCounter;
+    dom_incorrectCounter.innerText = incorrectCounter;
   }         // END else (SET invalid)
 
   // After win OR lose, for each selected card: remove class "selected" from DOM,
@@ -262,14 +340,6 @@ function checkForSolutions() {
 }         // End "checkForSolutions()" function
 
 
-///// RESET FUNCTION /////
-
-function fullReset() {
-  if (prompt("Are you sure you want to reset the game?")) {
-    document.querySelectorAll(".card").remove();
-    gameBoard.innerHTML = "";
-  }
-}         // End fullReset() function
 
 
 
@@ -442,3 +512,25 @@ dom_hintBtn.addEventListener("click", () => {
     cardHint2.style.animation = "glow-fade-in-out 3s infinite";
   }             // End second hint section
 });
+
+dom_playAgainBtn.addEventListener("click", () => {
+  fullReset();
+})
+
+
+
+
+
+
+
+
+
+// TROUBLESHOOTING FOR ENDGAME: TRIM THE DECK DOWN TO 15 CARDS
+for (let i=0; i < 81-15; i++) {
+  let r = Math.floor(Math.random() * deck.length);
+  deck.splice(r,1);
+
+  // OR:
+
+  // deck.pop();
+}

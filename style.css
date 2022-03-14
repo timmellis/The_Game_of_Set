@@ -465,3 +465,31 @@ main.play-page {
   background-color:rgba(100,100,100,.1);
   box-shadow: 0 0 4px skyblue;
 }
+
+.game-over-screen {
+  z-index: 10;
+  position: absolute;
+  height: 98%;
+  width: 95%;
+  top: 5px;
+  left: 0px;
+  border: solid 3px black;
+  border-radius: 24px;
+  background:rgba(255, 255, 255, .65);
+  text-align: center;
+
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+}
+.games-stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+} .games-stats div {
+  margin: 4px 8px 8px 8px;
+}
+#play-again-btn {
+  width:fit-content;
+  margin: 0 auto;
+}
